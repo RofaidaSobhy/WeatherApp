@@ -1,10 +1,17 @@
 package com.example.weatherapp.data.remote
 
+import com.example.weatherapp.Constants.API_KEY
 import retrofit2.Response
 import retrofit2.http.GET
 import retrofit2.http.Query
 
 interface WeatherService {
-    @GET("weather?appid=dbc27c07dc760401e546041052488210")
-    suspend fun getCurrentWeather(@Query("lat") latitude: String,@Query("lon") longitude: String): Response<WeatherResponse>
+    @GET("weather")
+    suspend fun getCurrentWeather(
+        @Query("lat") latitude: Double,
+        @Query("lon") longitude: Double,
+        @Query("appid") apiKey: String ,
+        @Query("units") units: String,
+        @Query("lang") language: String
+    ): Response<CurrentWeatherResponse>
 }

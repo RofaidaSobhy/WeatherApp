@@ -7,7 +7,7 @@ import com.example.weatherapp.data.models.Sys
 import com.example.weatherapp.data.models.Weather
 import com.example.weatherapp.data.models.Wind
 
-data class WeatherResponse (
+data class CurrentWeatherResponse(
     var coord: Coord? = null,
     var weather: ArrayList<Weather>? = null,
     var base: String? = null,
@@ -20,5 +20,4 @@ data class WeatherResponse (
     var timezone: Int = 0,
     var id: Int = 0,
     var name: String? = null,
-    var cod: Int = 0
-)
+    var cod: Int = 0)
