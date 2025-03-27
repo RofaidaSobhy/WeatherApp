@@ -1,7 +1,5 @@
 package com.example.weatherapp.data.repo
 
-import com.example.weatherapp.Constants.API_KEY
-import com.example.weatherapp.data.models.Weather
 import com.example.weatherapp.data.remote.CurrentWeatherResponse
 import com.example.weatherapp.data.remote.WeatherRemoteDataSource
 import kotlinx.coroutines.flow.Flow

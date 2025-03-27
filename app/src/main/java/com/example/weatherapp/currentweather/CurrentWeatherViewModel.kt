@@ -1,14 +1,10 @@
 package com.example.weatherapp.currentweather
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
-import com.example.weatherapp.Constants.API_KEY
+import com.example.weatherapp.utils.Constants.API_KEY
 import com.example.weatherapp.data.models.Response.Response
-import com.example.weatherapp.data.models.Weather
-import com.example.weatherapp.data.remote.CurrentWeatherResponse
 import com.example.weatherapp.data.repo.WeatherRepository
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableSharedFlow
