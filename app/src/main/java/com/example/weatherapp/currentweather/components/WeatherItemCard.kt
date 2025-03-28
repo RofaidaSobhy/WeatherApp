@@ -35,7 +35,7 @@ import com.example.weatherapp.R
 @OptIn(ExperimentalGlideComposeApi::class)
 @Composable
 fun WeatherItemCard(
-    icon: String,
+    icon: Int,
     title: String,
     value: String
 ) {
@@ -58,20 +58,11 @@ fun WeatherItemCard(
             Column(
                 modifier = Modifier.padding(20.dp)
             ) {
-
-                GlideImage(
-                    model = icon,
+                Icon(
+                    painter = painterResource(id = icon),
                     contentDescription = title,
-                    modifier = Modifier
-                        .size(25.dp)
-                        .graphicsLayer(alpha = 1f)
-                        .drawWithContent {
-                            drawContent()
-                            drawRect(
-                                color = Color.White,
-                                blendMode = BlendMode.SrcIn
-                            )
-                        }
+                    modifier = Modifier.size(25.dp),
+                    tint = Color.White
                 )
 
                 Spacer(modifier = Modifier.height(8.dp))
@@ -96,7 +87,7 @@ fun WeatherItemCard(
 @Composable
 fun WeatherItemCardPreview() {
     WeatherItemCard(
-        icon = "",
+        icon = R.drawable.wind,
         title = "Wind",
         value = "5 km/h"
     )
