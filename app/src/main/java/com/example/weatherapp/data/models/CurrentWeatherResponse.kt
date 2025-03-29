@@ -1,11 +1,5 @@
-package com.example.weatherapp.data.remote
+package com.example.weatherapp.data.models
 
-import com.example.weatherapp.data.models.Clouds
-import com.example.weatherapp.data.models.Coord
-import com.example.weatherapp.data.models.Main
-import com.example.weatherapp.data.models.Sys
-import com.example.weatherapp.data.models.Weather
-import com.example.weatherapp.data.models.Wind
 
 data class CurrentWeatherResponse(
     var coord: Coord? = null,
@@ -20,4 +14,6 @@ data class CurrentWeatherResponse(
     var timezone: Int = 0,
     var id: Int = 0,
     var name: String? = null,
-    var cod: Int = 0)
+    var cod: Int = 0
+)
+

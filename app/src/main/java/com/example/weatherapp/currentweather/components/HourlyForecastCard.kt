@@ -12,10 +12,12 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -26,6 +28,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.bumptech.glide.integration.compose.ExperimentalGlideComposeApi
 import com.bumptech.glide.integration.compose.GlideImage
+import com.example.weatherapp.utils.DateTimeUtils
 import java.util.Locale
 
 @RequiresApi(Build.VERSION_CODES.O)
@@ -47,18 +50,17 @@ fun HourlyForecastCard(
     ) {
         Box(
             modifier = Modifier
-                .background(MaterialTheme.colorScheme.primary)
+                .background(Color(0xFF222A36))
                 .fillMaxSize()
                 .padding(16.dp),
             contentAlignment = Alignment.Center
         ) {
-            val columns = 5
-            val spacing = 12.dp
+            val spacing = 15.dp
 
-            LazyVerticalGrid(
-                columns = GridCells.Fixed(columns),
+            LazyRow(
                 horizontalArrangement = Arrangement.spacedBy(spacing),
-            ) {
+                modifier = Modifier.padding(horizontal = 16.dp)
+            ){
                 items(weatherIcons.size) { index ->
                     HourlyForecastItem(
                         weatherIcon = weatherIcons[index],
@@ -74,6 +76,7 @@ fun HourlyForecastCard(
 }
 
 
+@RequiresApi(Build.VERSION_CODES.O)
 @OptIn(ExperimentalGlideComposeApi::class)
 @Composable
 fun HourlyForecastItem(
@@ -83,19 +86,20 @@ fun HourlyForecastItem(
     hourlyTime: String,
 ) {
 
-
+    val timeStamp = DateTimeUtils.parseDtTxtToHour(hourlyTime)
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.spacedBy(4.dp)
     ) {
         Text(
-            text = hourlyTime.uppercase(Locale.ROOT),
+            text = timeStamp.uppercase(Locale.ROOT),
             style = MaterialTheme.typography.titleSmall,
-            color = MaterialTheme.colorScheme.tertiary
+            color = Color(0xFF9396A6)
+
         )
 
         GlideImage(
-            model = weatherIcon,
+            model = "https://openweathermap.org/img/wn/${weatherIcon}@2x.png",
             contentDescription = "Weather icon",
             modifier = Modifier
                 .size(48.dp)
@@ -107,6 +111,8 @@ fun HourlyForecastItem(
             style = MaterialTheme.typography.titleMedium,
             color = MaterialTheme.colorScheme.onPrimary,
         )
+
+
     }
 }
 
