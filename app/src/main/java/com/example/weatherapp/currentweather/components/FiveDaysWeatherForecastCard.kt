@@ -63,7 +63,7 @@ fun FiveDayWeatherForecastCard(
                     verticalArrangement = Arrangement.spacedBy(20.dp)
                 ) {
                     items(5) { index ->
-                        WeatherForecastItem(weatherForecastItems[index],tempUnit)
+                        WeatherForecastItem(weatherForecastItems[index*8],tempUnit)
                         if (index in 1 until weatherForecastItems.size) {
                             HorizontalDivider(
                                 thickness = 1.dp,
