@@ -62,37 +62,7 @@ fun HomeView(viewModel: HomeViewModel, latitude:Double, longitude:Double) {
             }
     }
 
-/*     when (weatherForecastState) {
-     is Response.Loading -> {
-         LoadingIndicator()
-     }
 
-     is Response.Success<*> -> {
-
-         val weatherForecastData = (weatherForecastState as Response.Success<WeatherForecastResponse>).data
-         if (weatherForecastData != null) {
-
-             //val hourlyForecast = (weatherForecastState as Response.Success<WeatherForecastResponse>).data?.message
-             Log.i("TAG", "HomeView: ${weatherForecastData.list.get(0).weather}")
-
-
-         }
-
-
-     }
-     is Response.Failure -> {
-         Text(
-             text = "Sorry, we can't show the CurrentWeather now",
-             modifier = Modifier
-                 .fillMaxSize()
-                 .wrapContentSize(),
-             fontSize = 22.sp
-
-
-         )
-         Log.i("TAG", "CurrentWeatherScreen: Failure ")
-     }
- }*/
 
 
     if(currentWeatherState is Response.Loading || weatherForecastState is Response.Loading){
@@ -119,39 +89,7 @@ fun HomeView(viewModel: HomeViewModel, latitude:Double, longitude:Double) {
         )
     }
 
-   /* when (currentWeatherState) {
-        is Response.Loading -> {
-            LoadingIndicator()
-        }
 
-        is Response.Success<*> -> {
-
-            val currentWeatherData = (currentWeatherState as Response.Success<CurrentWeatherResponse>).data
-            if (currentWeatherData != null) {
-
-                if(weatherForecastState is Response.Success<*>){
-                    Log.i("TAG", "HomeView: ${(weatherForecastState as Response.Success<WeatherForecastResponse>).data?.listOfWeather?.get(0)?.dt_txt}")
-                    val hourlyForecast = (weatherForecastState as Response.Success<WeatherForecastResponse>).data?.listOfWeather
-                    HomeScreenContent(currentWeatherData, hourlyForecast)
-                }
-
-            }
-
-
-        }
-        is Response.Failure -> {
-            Text(
-                text = "Sorry, we can't show the CurrentWeather now",
-                modifier = Modifier
-                    .fillMaxSize()
-                    .wrapContentSize(),
-                fontSize = 22.sp
-
-
-            )
-            Log.i("TAG", "CurrentWeatherScreen: Failure ")
-        }
-    }*/
 
 }
 
@@ -228,9 +166,13 @@ private fun HomeScreenContent(currentWeather: CurrentWeatherResponse, hourlyFore
                     )
                     Spacer(modifier = Modifier.height(20.dp))
                     FiveDayWeatherForecastCard(fiveDaysForecast, "C")
+                    Spacer(modifier = Modifier.height(100.dp))
+
                 }
 
             }
+
+
 
 
 

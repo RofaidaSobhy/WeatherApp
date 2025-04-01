@@ -67,4 +67,8 @@ dependencies {
     implementation("androidx.navigation:navigation-compose:$nav_version")
     implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.8.0")
 
+    // Navigation component for Compose
+    implementation("androidx.navigation:navigation-compose:2.8.0")
+    implementation(kotlin("reflect"))
+
 }
