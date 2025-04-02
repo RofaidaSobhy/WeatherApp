@@ -1,12 +1,12 @@
 package com.example.weatherapp.data.models;
 
 data class Main (
-    var temp: Double = 0.0,
-    var feels_like: Double = 0.0,
-    var temp_min: Double = 0.0,
-    var temp_max: Double = 0.0,
-    var pressure: Int = 0,
-    var humidity: Int = 0,
-    var sea_level: Int = 0,
-    var grnd_level: Int = 0
+    var temp: Double,
+    var feels_like: Double,
+    var temp_min: Double,
+    var temp_max: Double,
+    var pressure: Int,
+    var humidity: Int,
+    var sea_level: Int,
+    var grnd_level: Int
 )

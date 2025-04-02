@@ -1,4 +1,8 @@
 <resources>
     <string name="app_name">WeatherApp</string>
     <string name="title_activity_current_weather">CurrentWeatherActivity</string>
+    <string name="language_label">Language</string>
+    <string name="temp_unit_label">Temp Unit</string>
+    <string name="location_label">Location</string>
+    <string name="wind_speed_unit_label">Wind Speed Unit</string>
 </resources>
