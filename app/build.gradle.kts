@@ -52,6 +52,7 @@ dependencies {
     implementation(libs.androidx.ui.tooling.preview)
     implementation(libs.androidx.material3)
     implementation(libs.androidx.lifecycle.runtime.compose.android)
+    implementation(libs.play.services.location)
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
@@ -70,5 +71,9 @@ dependencies {
     // Navigation component for Compose
     implementation("androidx.navigation:navigation-compose:2.8.0")
     implementation(kotlin("reflect"))
+
+    //Location
+    implementation("com.google.android.gms:play-services-location:21.1.0")
+
 
 }
