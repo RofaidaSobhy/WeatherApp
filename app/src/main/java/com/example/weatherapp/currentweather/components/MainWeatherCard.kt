@@ -118,6 +118,7 @@ fun MainWeatherCard(
                                     .size(70.dp)
 
                             )
+
                             Text(
                                 text = "$currentTemp°$tempUnit",
                                 color = Color.White,
