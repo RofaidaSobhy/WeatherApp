@@ -1,5 +1,6 @@
 package com.example.weatherapp.currentweather
 
+import android.content.Context
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
@@ -23,6 +24,9 @@ class HomeViewModel (private val repo : WeatherRepository) : ViewModel() {
 
     private val mutableMessage= MutableSharedFlow<String>()
     val message = mutableMessage.asSharedFlow()
+
+    /*private val mutableTempUnit=  MutableStateFlow("")
+    val tempUnit= mutableTempUnit.asStateFlow()*/
 
     fun getCurrentWeather(latitude:Double, longitude:Double, apiKey: String = API_KEY, units: String = "metric", language: String = "en"){
         viewModelScope.launch (Dispatchers.IO) {
@@ -80,6 +84,21 @@ class HomeViewModel (private val repo : WeatherRepository) : ViewModel() {
         }
 
     }
+
+ /*   fun readTempUnit(context: Context){
+        viewModelScope.launch (Dispatchers.IO) {
+            val result = repo.readTempUnit(context)
+           result.collect{
+               mutableTempUnit.value=it
+           }
+        }
+    }
+
+    fun writeTempUnit(context: Context){
+        viewModelScope.launch (Dispatchers.IO) {
+            repo.writeTempUnit(mutableTempUnit.value,context)
+        }
+    }*/
 
 }
 

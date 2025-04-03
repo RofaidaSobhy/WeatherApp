@@ -33,7 +33,7 @@ fun SettingsView(viewModel: SettingsViewModel) {
         ) {
             LanguageCard()
             Spacer(modifier = Modifier.height(10.dp))
-            TempUnitCard()
+            TempUnitCard(viewModel)
             Spacer(modifier = Modifier.height(10.dp))
             LocationCard()
             Spacer(modifier = Modifier.height(10.dp))

@@ -1,5 +1,6 @@
 package com.example.weatherapp.navigation
 
+import android.content.Context
 import android.os.Build
 import androidx.annotation.RequiresApi
 import androidx.compose.material3.Scaffold
@@ -20,11 +21,15 @@ import com.example.weatherapp.Settings.SettingsViewModel
 import com.example.weatherapp.currentweather.HomeFactory
 import com.example.weatherapp.currentweather.HomeView
 import com.example.weatherapp.currentweather.HomeViewModel
+import com.example.weatherapp.data.local.settings.SettingsDaoImpl
+import com.example.weatherapp.data.local.settings.SettingsLocalDataSource
+import com.example.weatherapp.data.local.settings.SettingsLocalDataSourceImpl
 import com.example.weatherapp.ui.components.BottomNavItem
 import com.example.weatherapp.ui.components.BottomNavigationBar
 import com.example.weatherapp.data.remote.RetrofitHelper
 import com.example.weatherapp.data.remote.WeatherRemoteDataSourceImpl
 import com.example.weatherapp.data.repo.WeatherRepositoryImpl
+import com.example.weatherapp.data.repo.settings.SettingsRepositoryImpl
 
 @RequiresApi(Build.VERSION_CODES.O)
 @Composable
@@ -81,12 +86,16 @@ fun NavGraph(
             }
 
             composable<NavigationRoute.Settings> {
+                val context = LocalContext.current
+                val sharedPreferences = context.getSharedPreferences("AppSettings", Context.MODE_PRIVATE)
                 SettingsView(
                     ViewModelProvider(
                         LocalContext.current as ViewModelStoreOwner,
                         SettingsFactory(
-                            WeatherRepositoryImpl.getInstance(
-                                WeatherRemoteDataSourceImpl(RetrofitHelper.apiService)
+                           SettingsRepositoryImpl.getInstance(
+                                SettingsLocalDataSourceImpl(
+                                   SettingsDaoImpl(sharedPreferences)
+                                )
 
                             )
                         )
