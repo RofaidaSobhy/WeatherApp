@@ -1,5 +1,6 @@
 package com.example.weatherapp.Settings.components
 
+import android.annotation.SuppressLint
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
@@ -31,12 +32,20 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.weatherapp.R
+import com.example.weatherapp.Settings.Constants.TempUnit
 import com.example.weatherapp.Settings.Constants.WindSpeedUnit
+import com.example.weatherapp.Settings.SettingsViewModel
 
-@Preview(showSystemUi = false)
+//@Preview(showSystemUi = false)
+@SuppressLint("StateFlowValueCalledInComposition")
 @Composable
-fun WindSpeedUnitCard() {
+fun WindSpeedUnitCard(viewModel: SettingsViewModel) {
+    viewModel.readWindSpeedUnit()
+    val savedWindSpeedUnit = viewModel.windSpeedUnit.value
+
     val selectedWindSpeedUnit = remember { mutableStateOf("") }
+    selectedWindSpeedUnit.value = savedWindSpeedUnit
+
     Card(
         shape = MaterialTheme.shapes.small,
         modifier = Modifier
@@ -91,7 +100,11 @@ fun WindSpeedUnitCard() {
 
                 RadioButton(
                     selected = selectedWindSpeedUnit.value == WindSpeedUnit.meter,
-                    onClick = { selectedWindSpeedUnit.value = WindSpeedUnit.meter },
+                    onClick = {
+                        selectedWindSpeedUnit.value = WindSpeedUnit.meter
+                        viewModel.writeWindSpeedUnit(WindSpeedUnit.meter)
+                        viewModel.writeTempUnit(TempUnit.celsius)
+                    },
                     colors = RadioButtonDefaults.colors(Color(0xFF379DF1))
                 )
                 Spacer(modifier = Modifier.width(4.dp))
@@ -105,7 +118,11 @@ fun WindSpeedUnitCard() {
 
                 RadioButton(
                     selected = selectedWindSpeedUnit.value == WindSpeedUnit.mile,
-                    onClick = { selectedWindSpeedUnit.value = WindSpeedUnit.mile },
+                    onClick = {
+                        selectedWindSpeedUnit.value = WindSpeedUnit.mile
+                        viewModel.writeWindSpeedUnit(WindSpeedUnit.mile)
+                        viewModel.writeTempUnit(TempUnit.fahrenheit)
+                    },
                     colors = RadioButtonDefaults.colors(Color(0xFF379DF1))
                 )
                 Spacer(modifier = Modifier.width(2.dp))

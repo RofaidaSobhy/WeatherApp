@@ -37,7 +37,7 @@ fun SettingsView(viewModel: SettingsViewModel) {
             Spacer(modifier = Modifier.height(10.dp))
             LocationCard()
             Spacer(modifier = Modifier.height(10.dp))
-            WindSpeedUnitCard()
+            WindSpeedUnitCard(viewModel)
 
         }
     }

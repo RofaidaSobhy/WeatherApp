@@ -11,6 +11,8 @@ interface WeatherRepository {
     suspend fun getWeatherForecast(latitude:Double, longitude:Double, apiKey: String, units: String, language: String): Flow<WeatherForecastResponse?>
     suspend fun readTempUnit() : Flow<String>
     suspend fun writeTempUnit(tempUnit:String)
+    suspend fun readWindSpeedUnit() : Flow<String>
+    suspend fun writeWindSpeedUnit(windSpeedUnit:String)
     suspend fun readOldTempUnit() : Flow<String>
     suspend fun writeOldTempUnit(oldTempUnit:String)
 }
