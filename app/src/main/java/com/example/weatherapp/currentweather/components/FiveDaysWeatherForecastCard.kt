@@ -28,9 +28,12 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import com.bumptech.glide.integration.compose.ExperimentalGlideComposeApi
 import com.bumptech.glide.integration.compose.GlideImage
+import com.example.weatherapp.Settings.Constants.TempUnit
+import com.example.weatherapp.Settings.Constants.TempUnitSymbol
 import com.example.weatherapp.data.models.ListOfWeather
 import com.example.weatherapp.data.models.WeatherForecastResponse
 import com.example.weatherapp.utils.DateTimeUtils
+import com.example.weatherapp.utils.TemperatureUtils
 
 
 @RequiresApi(Build.VERSION_CODES.O)
@@ -85,6 +88,29 @@ fun WeatherForecastItem(
     weatherItem: ListOfWeather,
     tempUnit: String
 ) {
+
+    val tempMin = weatherItem.main.temp_min
+    val tempMax = weatherItem.main.temp_max
+
+    var convertedTempMin = 0.0
+    var convertedTempMax = 0.0
+
+    when(tempUnit) {
+        TempUnitSymbol.celsius -> {
+            convertedTempMin = tempMin
+            convertedTempMax = tempMax
+        }
+
+        TempUnitSymbol.kelvin -> {
+            convertedTempMin = TemperatureUtils.celsiusToKelvin(tempMin)
+            convertedTempMax = TemperatureUtils.celsiusToKelvin(tempMax)
+        }
+        TempUnitSymbol.fahrenheit -> {
+
+            convertedTempMin = TemperatureUtils.celsiusToFahrenheit(tempMin)
+            convertedTempMax = TemperatureUtils.celsiusToFahrenheit(tempMax)
+        }
+    }
     Row(
         modifier = Modifier.fillMaxWidth(),
         verticalAlignment = Alignment.CenterVertically,
@@ -110,14 +136,14 @@ fun WeatherForecastItem(
         )
 
         Text(
-            text = "${weatherItem.main.temp_min.toInt()}°$tempUnit",
+            text = "${/*weatherItem.main.temp_min*/convertedTempMin.toInt()}°$tempUnit",
             style = MaterialTheme.typography.bodyLarge,
             color = MaterialTheme.colorScheme.onPrimary,
             fontWeight = FontWeight.Bold,
         )
 
         Text(
-            text = "${weatherItem.main.temp_max.toInt()}°$tempUnit",
+            text = "${/*weatherItem.main.temp_max*/convertedTempMax.toInt()}°$tempUnit",
             style = MaterialTheme.typography.bodyMedium,
             color = Color(0xFF9396A6),
             fontWeight = FontWeight.Bold,

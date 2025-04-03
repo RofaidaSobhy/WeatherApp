@@ -8,6 +8,7 @@ object Constants {
     const val REQUEST_LOCATION_CODE = 2005
 
     const val TEMP_UNIT = "TEMP_UNIT"
+    const val OLD_TEMP_UNIT = "OLD_TEMP_UNIT"
 
 
     val SCREEN_PADDING = 16.dp

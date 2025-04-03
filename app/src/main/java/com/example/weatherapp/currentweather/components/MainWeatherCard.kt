@@ -50,6 +50,7 @@ fun MainWeatherCard(
     location: String
 
 ) {
+
     val screenWidth = LocalConfiguration.current.screenWidthDp.dp / 1.2f
     val date = DateTimeUtils.getDate(dt,timeZone)
     val time = DateTimeUtils.getTime(dt,timeZone)

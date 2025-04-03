@@ -21,6 +21,7 @@ import com.example.weatherapp.Settings.SettingsViewModel
 import com.example.weatherapp.currentweather.HomeFactory
 import com.example.weatherapp.currentweather.HomeView
 import com.example.weatherapp.currentweather.HomeViewModel
+import com.example.weatherapp.data.local.LocalDataSourceImpl
 import com.example.weatherapp.data.local.settings.SettingsDaoImpl
 import com.example.weatherapp.data.local.settings.SettingsLocalDataSource
 import com.example.weatherapp.data.local.settings.SettingsLocalDataSourceImpl
@@ -71,11 +72,17 @@ fun NavGraph(
             composable<NavigationRoute.Home>(){
                 val latitude:Double = 26.820553
                 val longitude:Double = 30.802498
+                val context = LocalContext.current
+                val sharedPreferences = context.getSharedPreferences("AppSettings", Context.MODE_PRIVATE)
+
                 HomeView(ViewModelProvider(
                     LocalContext.current as ViewModelStoreOwner,
                     HomeFactory(
                         WeatherRepositoryImpl.getInstance(
                             WeatherRemoteDataSourceImpl(RetrofitHelper.apiService)
+                            ,LocalDataSourceImpl(
+                                SettingsDaoImpl(sharedPreferences)
+                            )
 
                         )
                     )
@@ -92,10 +99,11 @@ fun NavGraph(
                     ViewModelProvider(
                         LocalContext.current as ViewModelStoreOwner,
                         SettingsFactory(
-                           SettingsRepositoryImpl.getInstance(
-                                SettingsLocalDataSourceImpl(
+                           WeatherRepositoryImpl.getInstance(
+                               WeatherRemoteDataSourceImpl(RetrofitHelper.apiService)
+                               ,LocalDataSourceImpl(
                                    SettingsDaoImpl(sharedPreferences)
-                                )
+                               )
 
                             )
                         )

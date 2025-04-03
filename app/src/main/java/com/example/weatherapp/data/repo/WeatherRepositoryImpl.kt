@@ -2,6 +2,7 @@ package com.example.weatherapp.data.repo
 
 import android.content.Context
 import com.example.weatherapp.Settings.Constants.TempUnit
+import com.example.weatherapp.data.local.LocalDataSource
 import com.example.weatherapp.data.models.CurrentWeatherResponse
 import com.example.weatherapp.data.models.WeatherForecastResponse
 import com.example.weatherapp.data.remote.WeatherRemoteDataSource
@@ -11,7 +12,7 @@ import kotlinx.coroutines.flow.flow
 
 class WeatherRepositoryImpl private constructor(
     private val remoteDataSource:WeatherRemoteDataSource,
-//    private val localDataSource: SettingsLocalDataSource
+    private val localDataSource: LocalDataSource
 )
     :WeatherRepository {
     override suspend fun getCurrentWeather(latitude:Double, longitude:Double, apiKey: String , units: String , language: String ): Flow<CurrentWeatherResponse?> {
@@ -21,25 +22,31 @@ class WeatherRepositoryImpl private constructor(
         return remoteDataSource.getWeatherForecast(latitude,longitude,apiKey,units,language)
     }
 
-    override suspend fun readTempUnit(context: Context): Flow<String> = flow {
-        val sharedPreferences = context.getSharedPreferences("AppSettings", Context.MODE_PRIVATE)
-
-        val tempUint = sharedPreferences.getString(TEMP_UNIT, TempUnit.celsius) ?: TempUnit.celsius
-        emit(tempUint)
+    override suspend fun readTempUnit(): Flow<String>  {
+        return localDataSource.readTempUnit()
 
     }
 
-    override suspend fun writeTempUnit(tempUnit: String,context: Context) {
-        val sharedPreferences = context.getSharedPreferences("AppSettings", Context.MODE_PRIVATE)
 
-        sharedPreferences.edit().putString(TEMP_UNIT, tempUnit).apply()
+    override suspend fun writeTempUnit(tempUnit: String) {
+        localDataSource.writeTempUnit(tempUnit)
+
+    }
+
+
+    override suspend fun readOldTempUnit(): Flow<String> {
+        return localDataSource.readOldTempUnit()
+    }
+
+    override suspend fun writeOldTempUnit(oldTempUnit: String) {
+        localDataSource.writeOldTempUnit(oldTempUnit)
     }
 
     companion object{
         private var INSTANCE : WeatherRepositoryImpl? = null
-        fun getInstance(remoteDataSource: WeatherRemoteDataSource,): WeatherRepository{
+        fun getInstance(remoteDataSource: WeatherRemoteDataSource,localDataSource: LocalDataSource): WeatherRepository{
             return INSTANCE ?: synchronized(this){
-                val temp = WeatherRepositoryImpl(remoteDataSource)
+                val temp = WeatherRepositoryImpl(remoteDataSource,localDataSource)
                 INSTANCE = temp
                 temp
             }

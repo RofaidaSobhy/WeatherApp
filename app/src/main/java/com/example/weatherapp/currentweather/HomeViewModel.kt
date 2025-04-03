@@ -1,6 +1,7 @@
 package com.example.weatherapp.currentweather
 
 import android.content.Context
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
@@ -25,8 +26,11 @@ class HomeViewModel (private val repo : WeatherRepository) : ViewModel() {
     private val mutableMessage= MutableSharedFlow<String>()
     val message = mutableMessage.asSharedFlow()
 
-    /*private val mutableTempUnit=  MutableStateFlow("")
-    val tempUnit= mutableTempUnit.asStateFlow()*/
+    private val mutableTempUnit=  MutableStateFlow("")
+    val tempUnit= mutableTempUnit.asStateFlow()
+
+    private val mutableOldTempUnit=  MutableStateFlow("")
+    val oldTempUnit= mutableOldTempUnit.asStateFlow()
 
     fun getCurrentWeather(latitude:Double, longitude:Double, apiKey: String = API_KEY, units: String = "metric", language: String = "en"){
         viewModelScope.launch (Dispatchers.IO) {
@@ -85,20 +89,31 @@ class HomeViewModel (private val repo : WeatherRepository) : ViewModel() {
 
     }
 
- /*   fun readTempUnit(context: Context){
+    fun readTempUnit(){
         viewModelScope.launch (Dispatchers.IO) {
-            val result = repo.readTempUnit(context)
-           result.collect{
-               mutableTempUnit.value=it
-           }
+            val result = repo.readTempUnit()
+            result.collect{
+                mutableTempUnit.value=it
+            }
         }
     }
 
-    fun writeTempUnit(context: Context){
+    fun readOldTempUnit(){
         viewModelScope.launch (Dispatchers.IO) {
-            repo.writeTempUnit(mutableTempUnit.value,context)
+            val result = repo.readOldTempUnit()
+            result.collect{
+                mutableOldTempUnit.value=it
+            }
         }
-    }*/
+    }
+
+    fun writeOldTempUnit(oldTempUnit:String){
+        viewModelScope.launch (Dispatchers.IO) {
+            mutableOldTempUnit.value = oldTempUnit
+            repo.writeOldTempUnit(oldTempUnit)
+        }
+    }
+
 
 }
 

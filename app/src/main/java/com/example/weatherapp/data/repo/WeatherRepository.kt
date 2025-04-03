@@ -9,7 +9,8 @@ import kotlinx.coroutines.flow.Flow
 interface WeatherRepository {
     suspend fun getCurrentWeather(latitude:Double, longitude:Double, apiKey: String, units: String, language: String): Flow<CurrentWeatherResponse?>
     suspend fun getWeatherForecast(latitude:Double, longitude:Double, apiKey: String, units: String, language: String): Flow<WeatherForecastResponse?>
-    suspend fun readTempUnit(context: Context) : Flow<String>
-    suspend fun writeTempUnit(tempUnit:String,context: Context)
-
+    suspend fun readTempUnit() : Flow<String>
+    suspend fun writeTempUnit(tempUnit:String)
+    suspend fun readOldTempUnit() : Flow<String>
+    suspend fun writeOldTempUnit(oldTempUnit:String)
 }

@@ -4,13 +4,13 @@ import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
-import com.example.weatherapp.data.repo.settings.SettingsRepository
+import com.example.weatherapp.data.repo.WeatherRepository
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 
-class SettingsViewModel (private val repo : SettingsRepository) : ViewModel() {
+class SettingsViewModel (private val repo : WeatherRepository) : ViewModel() {
     private val mutableTempUnit=  MutableStateFlow("")
     val tempUnit = mutableTempUnit.asStateFlow()
 
@@ -35,7 +35,7 @@ class SettingsViewModel (private val repo : SettingsRepository) : ViewModel() {
 
 }
 
-class SettingsFactory(private val repo: SettingsRepository): ViewModelProvider.Factory {
+class SettingsFactory(private val repo: WeatherRepository): ViewModelProvider.Factory {
     override fun <T : ViewModel> create(modelClass: Class<T>): T{
         return SettingsViewModel(repo) as T
     }
