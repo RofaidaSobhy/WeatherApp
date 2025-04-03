@@ -1,5 +1,7 @@
 package com.example.weatherapp.Settings.components
 
+import android.annotation.SuppressLint
+import android.util.Log
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
@@ -27,16 +29,22 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.weatherapp.R
 import com.example.weatherapp.Settings.Constants.TempUnit
+import com.example.weatherapp.Settings.SettingsViewModel
 
-@Preview(showSystemUi = false)
+//@Preview(showSystemUi = false)
+@SuppressLint("StateFlowValueCalledInComposition")
 @Composable
-fun TempUnitCard() {
+fun TempUnitCard(viewModel: SettingsViewModel) {
+    viewModel.readTempUnit()
+    val savedTempUnit = viewModel.tempUnit.value
+
     val selectedTempUnit = remember { mutableStateOf("") }
+    selectedTempUnit.value = savedTempUnit
+
     Card(
         shape = MaterialTheme.shapes.small,
         modifier = Modifier
@@ -60,7 +68,8 @@ fun TempUnitCard() {
                     Image(
                         painter = painterResource(R.drawable.tempreture),
                         contentDescription = "Temp Unit Icon",
-                        Modifier.clip(CircleShape)
+                        Modifier
+                            .clip(CircleShape)
                             .size(50.dp)
 
                     )
@@ -89,36 +98,44 @@ fun TempUnitCard() {
 
                 RadioButton(
                     selected = selectedTempUnit.value == TempUnit.celsius,
-                    onClick = { selectedTempUnit.value = TempUnit.celsius },
+                    onClick = {
+                        selectedTempUnit.value = TempUnit.celsius
+                        viewModel.writeTempUnit(TempUnit.celsius)
+
+                    },
                     colors = RadioButtonDefaults.colors(Color(0xFF379DF1))
                 )
-                //Spacer(modifier = Modifier.width(2.dp))
+
                 Text(
                     text = TempUnit.celsius,
                     color = Color.White,
                     fontSize = 16.sp,
 
                     )
-                //Spacer(modifier = Modifier.width(4.dp))
+
 
                 RadioButton(
                     selected = selectedTempUnit.value == TempUnit.kelvin,
-                    onClick = { selectedTempUnit.value = TempUnit.kelvin },
+                    onClick = {
+                        selectedTempUnit.value = TempUnit.kelvin
+                        viewModel.writeTempUnit(TempUnit.kelvin)
+
+                      },
                     colors = RadioButtonDefaults.colors(Color(0xFF379DF1))
                 )
-                //Spacer(modifier = Modifier.width(2.dp))
                 Text(
                     text = TempUnit.kelvin,
                     color = Color.White,
                     fontSize = 16.sp
                 )
-                // Spacer(modifier = Modifier.width(4.dp))
                 RadioButton(
                     selected = selectedTempUnit.value == TempUnit.fahrenheit,
-                    onClick = { selectedTempUnit.value = TempUnit.fahrenheit },
+                    onClick = {
+                        selectedTempUnit.value = TempUnit.fahrenheit
+                        viewModel.writeTempUnit(TempUnit.fahrenheit)
+                              },
                     colors = RadioButtonDefaults.colors(Color(0xFF379DF1))
                 )
-                //Spacer(modifier = Modifier.width(2.dp))
                 Text(
                     text = TempUnit.fahrenheit,
                     color = Color.White,

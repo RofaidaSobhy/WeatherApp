@@ -28,6 +28,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.bumptech.glide.integration.compose.ExperimentalGlideComposeApi
 import com.example.weatherapp.R
+import com.example.weatherapp.currentweather.HomeViewModel
 import com.example.weatherapp.data.models.CurrentWeatherResponse
 
 @OptIn(ExperimentalGlideComposeApi::class)
@@ -92,7 +93,7 @@ fun WeatherItemCardPreview() {
 }
 
 @Composable
-fun WeatherItems(currentWeather: CurrentWeatherResponse) {
+fun WeatherItems( currentWeather: CurrentWeatherResponse) {
     val spacing = 3.dp
 
     LazyRow (

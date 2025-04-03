@@ -3,6 +3,8 @@ plugins {
     alias(libs.plugins.kotlin.android)
     alias(libs.plugins.kotlin.compose)
     kotlin("plugin.serialization") version "2.1.10"
+    id("com.google.devtools.ksp")
+
 
 }
 
@@ -74,6 +76,17 @@ dependencies {
 
     //Location
     implementation("com.google.android.gms:play-services-location:21.1.0")
+
+
+    val room_version = "2.6.1"
+    implementation ("androidx.room:room-runtime:$room_version")
+    ksp("androidx.room:room-compiler:$room_version")
+    implementation ("androidx.room:room-ktx:$room_version")
+
+    implementation("androidx.lifecycle:lifecycle-viewmodel-compose-android:2.8.7")
+
+    val compose_version = "1.0.0"
+    implementation ("androidx.compose.runtime:runtime-livedata:$compose_version")
 
 
 }

@@ -28,7 +28,10 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.bumptech.glide.integration.compose.ExperimentalGlideComposeApi
 import com.bumptech.glide.integration.compose.GlideImage
+import com.example.weatherapp.Settings.Constants.TempUnit
+import com.example.weatherapp.Settings.Constants.TempUnitSymbol
 import com.example.weatherapp.utils.DateTimeUtils
+import com.example.weatherapp.utils.TemperatureUtils
 import java.util.Locale
 
 @RequiresApi(Build.VERSION_CODES.O)
@@ -36,7 +39,7 @@ import java.util.Locale
 fun HourlyForecastCard(
     tempUnit: String,
     weatherIcons: List<String>,
-    hourlyTemps: List<Int>,
+    hourlyTemps: List<Double>,
     hourlyTimes: List<String>
 ) {
     Card(
@@ -82,11 +85,26 @@ fun HourlyForecastCard(
 fun HourlyForecastItem(
     weatherIcon: String,
     tempUnit:String,
-    hourlyTemp: Int,
+    hourlyTemp: Double,
     hourlyTime: String,
 ) {
 
     val timeStamp = DateTimeUtils.parseDtTxtToHour(hourlyTime)
+
+
+    var convertedHourlyTemp = 0.0
+    when(tempUnit) {
+        TempUnitSymbol.celsius -> {
+            convertedHourlyTemp = hourlyTemp
+        }
+
+        TempUnitSymbol.kelvin -> {
+            convertedHourlyTemp = TemperatureUtils.celsiusToKelvin(hourlyTemp)
+        }
+        TempUnitSymbol.fahrenheit -> {
+            convertedHourlyTemp = TemperatureUtils.celsiusToFahrenheit(hourlyTemp)
+        }
+    }
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.spacedBy(4.dp)
@@ -107,7 +125,7 @@ fun HourlyForecastItem(
         )
         Spacer(modifier = Modifier.height(4.dp))
         Text(
-            text = "$hourlyTemp°$tempUnit",
+            text = "${convertedHourlyTemp.toInt()}°$tempUnit",
             style = MaterialTheme.typography.titleMedium,
             color = MaterialTheme.colorScheme.onPrimary,
         )
@@ -125,7 +143,7 @@ fun HourlyForecastCardPreview() {
             weatherIcons = listOf(
                 "", "", "", "", ""
             ),
-            hourlyTemps = listOf(20, 20, 20, 20, 20),
+            hourlyTemps = listOf(20.0, 20.0, 20.0, 20.0, 20.0),
             hourlyTimes = listOf("NOW", "13:00", "14:00", "15:00", "16:00")
         )
 
