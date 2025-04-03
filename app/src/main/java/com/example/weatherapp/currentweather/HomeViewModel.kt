@@ -32,6 +32,12 @@ class HomeViewModel (private val repo : WeatherRepository) : ViewModel() {
     private val mutableOldTempUnit=  MutableStateFlow("")
     val oldTempUnit= mutableOldTempUnit.asStateFlow()
 
+    private val mutableLatitude=  MutableStateFlow(0.0)
+    val latitude= mutableLatitude.asStateFlow()
+
+    private val mutableLongitude=  MutableStateFlow(0.0)
+    val longitude= mutableLongitude.asStateFlow()
+
     fun getCurrentWeather(latitude:Double, longitude:Double, apiKey: String = API_KEY, units: String = "metric", language: String = "en"){
         viewModelScope.launch (Dispatchers.IO) {
             try {
@@ -112,6 +118,14 @@ class HomeViewModel (private val repo : WeatherRepository) : ViewModel() {
             mutableOldTempUnit.value = oldTempUnit
             repo.writeOldTempUnit(oldTempUnit)
         }
+    }
+
+    fun setLongitude(longitude: Double){
+        mutableLongitude.value = longitude
+    }
+
+    fun setLatitude(latitude: Double){
+        mutableLatitude.value = latitude
     }
 
 

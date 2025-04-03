@@ -1,12 +1,14 @@
 package com.example.weatherapp
 
 import android.annotation.SuppressLint
+import android.content.Context
 import android.content.pm.PackageManager
 import android.location.Location
 import android.location.LocationManager
 import android.os.Build
 import android.os.Bundle
 import android.os.Looper
+import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.annotation.RequiresApi
@@ -17,8 +19,18 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.core.app.ActivityCompat
+import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.ViewModelStoreOwner
 import androidx.navigation.compose.rememberNavController
+import com.example.weatherapp.currentweather.HomeFactory
+import com.example.weatherapp.currentweather.HomeViewModel
+import com.example.weatherapp.data.local.LocalDataSourceImpl
+import com.example.weatherapp.data.local.settings.SettingsDaoImpl
+import com.example.weatherapp.data.remote.RetrofitHelper
+import com.example.weatherapp.data.remote.WeatherRemoteDataSourceImpl
+import com.example.weatherapp.data.repo.WeatherRepositoryImpl
 import com.example.weatherapp.navigation.NavGraph
 import com.example.weatherapp.navigation.NavigationRoute
 import com.example.weatherapp.utils.Constants.REQUEST_LOCATION_CODE
@@ -35,9 +47,22 @@ import com.google.android.gms.location.Priority
 class MainActivity : ComponentActivity() {
     private lateinit var fusedLocationProviderClient: FusedLocationProviderClient
     private lateinit var locationState: MutableState<Location>
+    private lateinit var viewModel: HomeViewModel
+
+
     @RequiresApi(Build.VERSION_CODES.O)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        viewModel =HomeViewModel(
+
+            WeatherRepositoryImpl.getInstance(
+                WeatherRemoteDataSourceImpl(RetrofitHelper.apiService)
+                , LocalDataSourceImpl(
+                    SettingsDaoImpl(this.getSharedPreferences("AppSettings", Context.MODE_PRIVATE))
+                )
+
+            )
+        )
         setContent {
             Surface(
                 modifier = Modifier.fillMaxSize(),
@@ -47,7 +72,15 @@ class MainActivity : ComponentActivity() {
                 locationState = remember{ mutableStateOf(Location(LocationManager.GPS_PROVIDER)) }
                 val latitude:Double = locationState.value.latitude
                 val longitude:Double = locationState.value.longitude
-                NavGraph(navController = navController, NavigationRoute.Home(latitude,longitude))
+
+                viewModel.setLongitude(longitude)
+                viewModel.setLatitude(latitude)
+                Log.i("TAG", "onCreate: latitude = $latitude ")
+                Log.i("TAG", "onCreate: longitude = $longitude ")
+
+                    NavGraph(navController = navController, NavigationRoute.Home)
+
+
             }
         }
     }

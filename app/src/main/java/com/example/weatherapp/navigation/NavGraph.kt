@@ -42,7 +42,7 @@ fun NavGraph(
 
     val bottomNavItems = remember {
         listOf(
-            BottomNavItem(NavigationRoute.Home(), R.drawable.home, "Home"),
+            BottomNavItem(NavigationRoute.Home, R.drawable.home, "Home"),
             BottomNavItem(NavigationRoute.Settings, R.drawable.settings, "Settings"),
         )
     }
@@ -64,14 +64,14 @@ fun NavGraph(
         }
 
     ) { innerPadding ->
-
+        val p =innerPadding
         NavHost(
             navController= navController
             , startDestination = startDestination
         ){
             composable<NavigationRoute.Home>(){
-                val latitude:Double = 26.820553
-                val longitude:Double = 30.802498
+                /*val latitude:Double = 26.820553
+                val longitude:Double = 30.802498*/
                 val context = LocalContext.current
                 val sharedPreferences = context.getSharedPreferences("AppSettings", Context.MODE_PRIVATE)
 
@@ -87,8 +87,8 @@ fun NavGraph(
                         )
                     )
                 ).get(HomeViewModel::class.java),
-                    latitude,
-                    longitude
+                   /* latitude,
+                    longitude*/
                 )
             }
 

@@ -49,7 +49,7 @@ import kotlinx.coroutines.flow.filter
 @SuppressLint("StateFlowValueCalledInComposition")
 @RequiresApi(Build.VERSION_CODES.O)
 @Composable
-fun HomeView(viewModel: HomeViewModel, latitude:Double, longitude:Double) {
+fun HomeView(viewModel: HomeViewModel/*, latitude:Double, longitude:Double*/) {
     /*viewModel.readTempUnit()
     val savedTempUnit = viewModel.tempUnit.value
     when (savedTempUnit) {
@@ -66,8 +66,12 @@ fun HomeView(viewModel: HomeViewModel, latitude:Double, longitude:Double) {
             viewModel.getWeatherForecast(latitude, longitude, units = TempUnitAPI.fahrenheit)
         }
     }*/
+    val latitude=viewModel.latitude.value
+    val longitude=viewModel.longitude.value
     viewModel.getCurrentWeather(latitude, longitude)
     viewModel.getWeatherForecast(latitude, longitude)
+
+
     val currentWeatherState by viewModel.currentWeather.collectAsStateWithLifecycle()
     val weatherForecastState by viewModel.weatherForecast.collectAsStateWithLifecycle()
 
