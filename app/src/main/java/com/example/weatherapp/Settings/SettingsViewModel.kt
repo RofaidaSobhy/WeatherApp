@@ -4,6 +4,8 @@ import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
+import com.example.weatherapp.Settings.Constants.TempUnit
+import com.example.weatherapp.Settings.Constants.WindSpeedUnit
 import com.example.weatherapp.data.repo.WeatherRepository
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -13,6 +15,9 @@ import kotlinx.coroutines.launch
 class SettingsViewModel (private val repo : WeatherRepository) : ViewModel() {
     private val mutableTempUnit=  MutableStateFlow("")
     val tempUnit = mutableTempUnit.asStateFlow()
+
+    private val mutableWindSpeedUnit=  MutableStateFlow("")
+    val windSpeedUnit = mutableWindSpeedUnit.asStateFlow()
 
 
     fun readTempUnit(){
@@ -30,8 +35,27 @@ class SettingsViewModel (private val repo : WeatherRepository) : ViewModel() {
         viewModelScope.launch (Dispatchers.IO) {
             mutableTempUnit.value = tempUnit
             repo.writeTempUnit(tempUnit)
+
         }
     }
+
+    fun readWindSpeedUnit(){
+        viewModelScope.launch (Dispatchers.IO) {
+            val result = repo.readWindSpeedUnit()
+            result.collect{
+                mutableWindSpeedUnit.value=it
+            }
+        }
+    }
+
+    fun writeWindSpeedUnit(windSpeedUnit:String){
+        viewModelScope.launch (Dispatchers.IO) {
+            mutableWindSpeedUnit.value = windSpeedUnit
+            repo.writeWindSpeedUnit(windSpeedUnit)
+        }
+    }
+
+
 
 }
 

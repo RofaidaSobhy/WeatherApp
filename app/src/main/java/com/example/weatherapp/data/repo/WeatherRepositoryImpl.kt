@@ -1,14 +1,11 @@
 package com.example.weatherapp.data.repo
 
-import android.content.Context
-import com.example.weatherapp.Settings.Constants.TempUnit
+
 import com.example.weatherapp.data.local.LocalDataSource
 import com.example.weatherapp.data.models.CurrentWeatherResponse
 import com.example.weatherapp.data.models.WeatherForecastResponse
 import com.example.weatherapp.data.remote.WeatherRemoteDataSource
-import com.example.weatherapp.utils.Constants.TEMP_UNIT
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.flow
 
 class WeatherRepositoryImpl private constructor(
     private val remoteDataSource:WeatherRemoteDataSource,
@@ -31,6 +28,14 @@ class WeatherRepositoryImpl private constructor(
     override suspend fun writeTempUnit(tempUnit: String) {
         localDataSource.writeTempUnit(tempUnit)
 
+    }
+
+    override suspend fun readWindSpeedUnit(): Flow<String> {
+        return localDataSource.readWindSpeedUnit()
+    }
+
+    override suspend fun writeWindSpeedUnit(windSpeedUnit: String) {
+        localDataSource.writeWindSpeedUnit(windSpeedUnit)
     }
 
 

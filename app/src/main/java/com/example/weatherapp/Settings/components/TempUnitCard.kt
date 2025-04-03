@@ -33,6 +33,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.weatherapp.R
 import com.example.weatherapp.Settings.Constants.TempUnit
+import com.example.weatherapp.Settings.Constants.WindSpeedUnit
 import com.example.weatherapp.Settings.SettingsViewModel
 
 //@Preview(showSystemUi = false)
@@ -44,6 +45,8 @@ fun TempUnitCard(viewModel: SettingsViewModel) {
 
     val selectedTempUnit = remember { mutableStateOf("") }
     selectedTempUnit.value = savedTempUnit
+
+
 
     Card(
         shape = MaterialTheme.shapes.small,
@@ -101,6 +104,7 @@ fun TempUnitCard(viewModel: SettingsViewModel) {
                     onClick = {
                         selectedTempUnit.value = TempUnit.celsius
                         viewModel.writeTempUnit(TempUnit.celsius)
+                        viewModel.writeWindSpeedUnit(WindSpeedUnit.meter)
 
                     },
                     colors = RadioButtonDefaults.colors(Color(0xFF379DF1))
@@ -119,8 +123,9 @@ fun TempUnitCard(viewModel: SettingsViewModel) {
                     onClick = {
                         selectedTempUnit.value = TempUnit.kelvin
                         viewModel.writeTempUnit(TempUnit.kelvin)
+                        viewModel.writeWindSpeedUnit(WindSpeedUnit.meter)
 
-                      },
+                    },
                     colors = RadioButtonDefaults.colors(Color(0xFF379DF1))
                 )
                 Text(
@@ -133,7 +138,9 @@ fun TempUnitCard(viewModel: SettingsViewModel) {
                     onClick = {
                         selectedTempUnit.value = TempUnit.fahrenheit
                         viewModel.writeTempUnit(TempUnit.fahrenheit)
-                              },
+                        viewModel.writeWindSpeedUnit(WindSpeedUnit.mile)
+
+                    },
                     colors = RadioButtonDefaults.colors(Color(0xFF379DF1))
                 )
                 Text(

@@ -273,7 +273,7 @@ private fun HomeScreenContent(viewModel: HomeViewModel,currentWeather: CurrentWe
                         .fillMaxSize()
 
                 ){
-                    WeatherItems(currentWeather)
+                    WeatherItems(viewModel, currentWeather)
                     Spacer(modifier = Modifier.padding(12.dp))
                     HourlyForecastCard(
                         tempUnit = /*"C"*/tempUnitSymbol,

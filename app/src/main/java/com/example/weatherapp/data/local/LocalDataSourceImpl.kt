@@ -11,6 +11,14 @@ class LocalDataSourceImpl(private val settingsDao: SettingsDao): LocalDataSource
         settingsDao.writeTempUnit(tempUnit)
     }
 
+    override suspend fun readWindSpeedUnit(): Flow<String> {
+        return settingsDao.readWindSpeedUnit()
+    }
+
+    override suspend fun writeWindSpeedUnit(windSpeedUnit: String) {
+        settingsDao.writeWindSpeedUnit(windSpeedUnit)
+    }
+
     override suspend fun readOldTempUnit(): Flow<String> {
         return settingsDao.readOldTempUnit()
     }

@@ -28,8 +28,14 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.bumptech.glide.integration.compose.ExperimentalGlideComposeApi
 import com.example.weatherapp.R
+import com.example.weatherapp.Settings.Constants.TempUnit
+import com.example.weatherapp.Settings.Constants.TempUnitSymbol
+import com.example.weatherapp.Settings.Constants.WindSpeedUnit
+import com.example.weatherapp.Settings.Constants.WindSpeedUnitSymbol
 import com.example.weatherapp.currentweather.HomeViewModel
 import com.example.weatherapp.data.models.CurrentWeatherResponse
+import com.example.weatherapp.utils.TemperatureUtils
+import com.example.weatherapp.utils.WindSpeedUtils
 
 @OptIn(ExperimentalGlideComposeApi::class)
 @Composable
@@ -93,13 +99,32 @@ fun WeatherItemCardPreview() {
 }
 
 @Composable
-fun WeatherItems( currentWeather: CurrentWeatherResponse) {
+fun WeatherItems(viewModel: HomeViewModel, currentWeather: CurrentWeatherResponse) {
     val spacing = 3.dp
 
     LazyRow (
         horizontalArrangement = Arrangement.spacedBy(spacing)
     ) {
 
+        viewModel.readWindSpeedUnit()
+        val savedWindSpeedUnit = viewModel.windSpeedUnit.value
+
+        val windSpeed=currentWeather.wind?.speed ?: 0.0
+
+        var convertedWindSpeed = 0.0
+        var windSpeedUnitSymbol = ""
+        when(savedWindSpeedUnit) {
+            WindSpeedUnit.meter -> {
+                windSpeedUnitSymbol = WindSpeedUnitSymbol.meter
+                convertedWindSpeed = windSpeed
+            }
+
+            WindSpeedUnit.mile -> {
+                windSpeedUnitSymbol = WindSpeedUnitSymbol.mile
+                convertedWindSpeed = WindSpeedUtils.mpsToMph(windSpeed)
+            }
+
+        }
         items(4) { index ->
             WeatherItemCard(
                 icon = when(index) {
@@ -114,9 +139,9 @@ fun WeatherItems( currentWeather: CurrentWeatherResponse) {
                     2 -> "Humidity"
                     else -> "Cloud"
                 },
-                value = "${currentWeather.wind?.speed}".let {
+                value = "${convertedWindSpeed.toInt()}".let {
                     when(index) {
-                        0 -> "$it m/s"
+                        0 -> "$it $windSpeedUnitSymbol"
                         1 -> "${currentWeather.main?.pressure} MB"
                         2 -> "${currentWeather.main?.humidity}%"
                         else -> "${currentWeather.clouds?.all?.times(100)}%"
