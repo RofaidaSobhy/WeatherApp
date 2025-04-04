@@ -17,6 +17,9 @@ class SettingsViewModel (private val repo : WeatherRepository) : ViewModel() {
     private val mutableWindSpeedUnit=  MutableStateFlow("")
     val windSpeedUnit = mutableWindSpeedUnit.asStateFlow()
 
+    private val mutableLocationMethod=  MutableStateFlow("")
+    val locationMethod = mutableLocationMethod.asStateFlow()
+
 
     fun readTempUnit(){
         viewModelScope.launch (Dispatchers.IO) {
@@ -52,6 +55,30 @@ class SettingsViewModel (private val repo : WeatherRepository) : ViewModel() {
             repo.writeWindSpeedUnit(windSpeedUnit)
         }
     }
+
+    fun readLocationMethod(){
+        viewModelScope.launch (Dispatchers.IO) {
+            val result = repo.readLocationMethod()
+            result.collect{
+                mutableLocationMethod.value=it
+            }
+        }
+    }
+
+    fun writeLocationMethod(locationMethod:String){
+        viewModelScope.launch (Dispatchers.IO) {
+            mutableLocationMethod.value = locationMethod
+            repo.writeLocationMethod(locationMethod)
+        }
+    }
+
+
+
+
+
+
+
+
 
 
 

@@ -1,5 +1,6 @@
 package com.example.weatherapp.Settings.components
 
+import android.annotation.SuppressLint
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
@@ -33,15 +34,20 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.weatherapp.R
 import com.example.weatherapp.Settings.Constants.Location
+import com.example.weatherapp.Settings.Constants.WindSpeedUnit
+import com.example.weatherapp.Settings.SettingsViewModel
 
 //@Preview(showSystemUi = false)
+@SuppressLint("StateFlowValueCalledInComposition")
 @Composable
-fun LocationCard(action : ()-> Unit) {
-    val selectedLocation = remember { mutableStateOf("") }
+fun LocationCard(action : ()-> Unit, viewModel: SettingsViewModel) {
 
-    /*if(selectedLocation.value==Location.map){
-        action()
-    }*/
+    viewModel.readLocationMethod()
+    val savedLocationMethod= viewModel.locationMethod.value
+
+    val selectedLocation = remember { mutableStateOf("") }
+    selectedLocation.value = savedLocationMethod
+
     Card(
         shape = MaterialTheme.shapes.small,
         modifier = Modifier
@@ -96,7 +102,11 @@ fun LocationCard(action : ()-> Unit) {
 
                 RadioButton(
                     selected = selectedLocation.value == Location.gps,
-                    onClick = { selectedLocation.value = Location.gps },
+                    onClick = {
+                        selectedLocation.value = Location.gps
+                        viewModel.writeLocationMethod(Location.gps)
+
+                    },
                     colors = RadioButtonDefaults.colors(Color(0xFF379DF1))
                 )
                 Spacer(modifier = Modifier.width(4.dp))
@@ -111,6 +121,8 @@ fun LocationCard(action : ()-> Unit) {
                     selected = selectedLocation.value == Location.map,
                     onClick = {
                         selectedLocation.value = Location.map
+                        viewModel.writeLocationMethod(Location.map)
+
                         action()
                     },
                     colors = RadioButtonDefaults.colors(Color(0xFF379DF1))

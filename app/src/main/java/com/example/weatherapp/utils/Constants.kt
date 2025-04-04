@@ -9,6 +9,10 @@ object Constants {
 
     const val TEMP_UNIT = "TEMP_UNIT"
     const val WIND_SPEED_UNIT = "WIND_SPEED_UNIT"
+    const val LOCATION_METHOD = "LOCATION_METHOD"
+    const val LONGITUDE = "LONGITUDE"
+    const val LATITUDE = "LATITUDE"
+
     const val OLD_TEMP_UNIT = "OLD_TEMP_UNIT"
 
 
