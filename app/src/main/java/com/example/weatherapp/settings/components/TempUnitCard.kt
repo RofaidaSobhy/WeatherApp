@@ -1,4 +1,4 @@
-package com.example.weatherapp.Settings.components
+package com.example.weatherapp.settings.components
 
 import android.annotation.SuppressLint
 import androidx.compose.foundation.Image
@@ -26,27 +26,26 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.weatherapp.R
-import com.example.weatherapp.Settings.Constants.Location
-import com.example.weatherapp.Settings.Constants.WindSpeedUnit
-import com.example.weatherapp.Settings.SettingsViewModel
+import com.example.weatherapp.settings.Constants.TempUnit
+import com.example.weatherapp.settings.Constants.WindSpeedUnit
+import com.example.weatherapp.settings.SettingsViewModel
 
 //@Preview(showSystemUi = false)
 @SuppressLint("StateFlowValueCalledInComposition")
 @Composable
-fun LocationCard(action : ()-> Unit, viewModel: SettingsViewModel) {
+fun TempUnitCard(viewModel: SettingsViewModel) {
+    viewModel.readTempUnit()
+    val savedTempUnit = viewModel.tempUnit.value
 
-    viewModel.readLocationMethod()
-    val savedLocationMethod= viewModel.locationMethod.value
+    val selectedTempUnit = remember { mutableStateOf("") }
+    selectedTempUnit.value = savedTempUnit
 
-    val selectedLocation = remember { mutableStateOf("") }
-    selectedLocation.value = savedLocationMethod
+
 
     Card(
         shape = MaterialTheme.shapes.small,
@@ -66,15 +65,14 @@ fun LocationCard(action : ()-> Unit, viewModel: SettingsViewModel) {
                     modifier = Modifier
                         .size(50.dp)
                         .clip(CircleShape)
-                        .background(Color(0xFFFF9900))
+                        .background(Color(0xFFF33561))
                 ) {
                     Image(
-                        painter = painterResource(R.drawable.location),
-                        contentDescription = "Location Icon",
-                        modifier = Modifier.size(40.dp)
-                            .align(alignment = Alignment.Center)
-
-
+                        painter = painterResource(R.drawable.tempreture),
+                        contentDescription = "Temp Unit Icon",
+                        Modifier
+                            .clip(CircleShape)
+                            .size(50.dp)
 
                     )
 
@@ -82,7 +80,7 @@ fun LocationCard(action : ()-> Unit, viewModel: SettingsViewModel) {
 
                 Spacer(modifier = Modifier.width(8.dp))
                 Text(
-                    text = stringResource(R.string.location_label),
+                    text = stringResource(R.string.temp_unit_label),
                     color = Color.White,
                     fontSize = 24.sp
 
@@ -101,39 +99,54 @@ fun LocationCard(action : ()-> Unit, viewModel: SettingsViewModel) {
             {
 
                 RadioButton(
-                    selected = selectedLocation.value == Location.gps,
+                    selected = selectedTempUnit.value == TempUnit.celsius,
                     onClick = {
-                        selectedLocation.value = Location.gps
-                        viewModel.writeLocationMethod(Location.gps)
+                        selectedTempUnit.value = TempUnit.celsius
+                        viewModel.writeTempUnit(TempUnit.celsius)
+                        viewModel.writeWindSpeedUnit(WindSpeedUnit.meter)
 
                     },
                     colors = RadioButtonDefaults.colors(Color(0xFF379DF1))
                 )
-                Spacer(modifier = Modifier.width(4.dp))
+
                 Text(
-                    text = Location.gps,
+                    text = TempUnit.celsius,
                     color = Color.White,
-                    fontSize = 18.sp,
+                    fontSize = 16.sp,
 
                     )
-                Spacer(modifier = Modifier.width(24.dp))
-                RadioButton(
-                    selected = selectedLocation.value == Location.map,
-                    onClick = {
-                        selectedLocation.value = Location.map
-                        viewModel.writeLocationMethod(Location.map)
 
-                        action()
+
+                RadioButton(
+                    selected = selectedTempUnit.value == TempUnit.kelvin,
+                    onClick = {
+                        selectedTempUnit.value = TempUnit.kelvin
+                        viewModel.writeTempUnit(TempUnit.kelvin)
+                        viewModel.writeWindSpeedUnit(WindSpeedUnit.meter)
+
                     },
                     colors = RadioButtonDefaults.colors(Color(0xFF379DF1))
                 )
-                Spacer(modifier = Modifier.width(2.dp))
                 Text(
-                    text = Location.map,
+                    text = TempUnit.kelvin,
                     color = Color.White,
                     fontSize = 16.sp
                 )
+                RadioButton(
+                    selected = selectedTempUnit.value == TempUnit.fahrenheit,
+                    onClick = {
+                        selectedTempUnit.value = TempUnit.fahrenheit
+                        viewModel.writeTempUnit(TempUnit.fahrenheit)
+                        viewModel.writeWindSpeedUnit(WindSpeedUnit.mile)
 
+                    },
+                    colors = RadioButtonDefaults.colors(Color(0xFF379DF1))
+                )
+                Text(
+                    text = TempUnit.fahrenheit,
+                    color = Color.White,
+                    fontSize = 16.sp
+                )
             }
         }
     }

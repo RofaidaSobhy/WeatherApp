@@ -1,4 +1,4 @@
-package com.example.weatherapp.Settings.components
+package com.example.weatherapp.settings.components
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Column
@@ -29,7 +29,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.weatherapp.R
-import com.example.weatherapp.Settings.Constants.Language
+import com.example.weatherapp.settings.Constants.Language
 
 @Preview(showSystemUi = false)
 @Composable

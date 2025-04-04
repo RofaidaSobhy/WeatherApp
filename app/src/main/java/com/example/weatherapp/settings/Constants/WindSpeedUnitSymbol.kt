@@ -1,4 +1,4 @@
-package com.example.weatherapp.Settings.Constants
+package com.example.weatherapp.settings.Constants
 
 object WindSpeedUnitSymbol {
     const val meter = "m/s"

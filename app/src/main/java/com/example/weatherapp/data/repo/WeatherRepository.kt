@@ -1,7 +1,5 @@
 package com.example.weatherapp.data.repo
 
-import android.content.Context
-import com.example.weatherapp.Settings.Constants.TempUnit
 import com.example.weatherapp.data.models.CurrentWeatherResponse
 import com.example.weatherapp.data.models.WeatherForecastResponse
 import kotlinx.coroutines.flow.Flow

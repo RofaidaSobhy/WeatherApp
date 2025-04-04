@@ -1,4 +1,4 @@
-package com.example.weatherapp.Map
+package com.example.weatherapp.map
 
 import android.content.Context
 import android.content.pm.PackageManager
@@ -13,8 +13,6 @@ import com.example.weatherapp.data.repo.WeatherRepository
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.maps.model.LatLng
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 

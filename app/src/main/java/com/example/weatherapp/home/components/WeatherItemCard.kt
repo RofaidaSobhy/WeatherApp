@@ -1,4 +1,4 @@
-package com.example.weatherapp.currentweather.components
+package com.example.weatherapp.home.components
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -28,13 +28,10 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.bumptech.glide.integration.compose.ExperimentalGlideComposeApi
 import com.example.weatherapp.R
-import com.example.weatherapp.Settings.Constants.TempUnit
-import com.example.weatherapp.Settings.Constants.TempUnitSymbol
-import com.example.weatherapp.Settings.Constants.WindSpeedUnit
-import com.example.weatherapp.Settings.Constants.WindSpeedUnitSymbol
-import com.example.weatherapp.currentweather.HomeViewModel
+import com.example.weatherapp.settings.Constants.WindSpeedUnit
+import com.example.weatherapp.settings.Constants.WindSpeedUnitSymbol
+import com.example.weatherapp.home.HomeViewModel
 import com.example.weatherapp.data.models.CurrentWeatherResponse
-import com.example.weatherapp.utils.TemperatureUtils
 import com.example.weatherapp.utils.WindSpeedUtils
 
 @OptIn(ExperimentalGlideComposeApi::class)

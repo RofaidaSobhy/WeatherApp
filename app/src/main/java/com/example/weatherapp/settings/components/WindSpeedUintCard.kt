@@ -1,7 +1,6 @@
-package com.example.weatherapp.Settings.components
+package com.example.weatherapp.settings.components
 
 import android.annotation.SuppressLint
-import android.util.Log
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
@@ -32,21 +31,19 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.weatherapp.R
-import com.example.weatherapp.Settings.Constants.TempUnit
-import com.example.weatherapp.Settings.Constants.WindSpeedUnit
-import com.example.weatherapp.Settings.SettingsViewModel
+import com.example.weatherapp.settings.Constants.TempUnit
+import com.example.weatherapp.settings.Constants.WindSpeedUnit
+import com.example.weatherapp.settings.SettingsViewModel
 
 //@Preview(showSystemUi = false)
 @SuppressLint("StateFlowValueCalledInComposition")
 @Composable
-fun TempUnitCard(viewModel: SettingsViewModel) {
-    viewModel.readTempUnit()
-    val savedTempUnit = viewModel.tempUnit.value
+fun WindSpeedUnitCard(viewModel: SettingsViewModel) {
+    viewModel.readWindSpeedUnit()
+    val savedWindSpeedUnit = viewModel.windSpeedUnit.value
 
-    val selectedTempUnit = remember { mutableStateOf("") }
-    selectedTempUnit.value = savedTempUnit
-
-
+    val selectedWindSpeedUnit = remember { mutableStateOf("") }
+    selectedWindSpeedUnit.value = savedWindSpeedUnit
 
     Card(
         shape = MaterialTheme.shapes.small,
@@ -66,14 +63,15 @@ fun TempUnitCard(viewModel: SettingsViewModel) {
                     modifier = Modifier
                         .size(50.dp)
                         .clip(CircleShape)
-                        .background(Color(0xFFF33561))
+                        .background(Color(0xFF9B3AAD))
                 ) {
                     Image(
-                        painter = painterResource(R.drawable.tempreture),
-                        contentDescription = "Temp Unit Icon",
-                        Modifier
-                            .clip(CircleShape)
-                            .size(50.dp)
+                        painter = painterResource(R.drawable.wind),
+                        contentDescription = "WindSpeedUnit Icon",
+                        modifier = Modifier.size(40.dp)
+                            .align(alignment = Alignment.Center)
+
+
 
                     )
 
@@ -81,7 +79,7 @@ fun TempUnitCard(viewModel: SettingsViewModel) {
 
                 Spacer(modifier = Modifier.width(8.dp))
                 Text(
-                    text = stringResource(R.string.temp_unit_label),
+                    text = stringResource(R.string.wind_speed_unit_label),
                     color = Color.White,
                     fontSize = 24.sp
 
@@ -100,54 +98,39 @@ fun TempUnitCard(viewModel: SettingsViewModel) {
             {
 
                 RadioButton(
-                    selected = selectedTempUnit.value == TempUnit.celsius,
+                    selected = selectedWindSpeedUnit.value == WindSpeedUnit.meter,
                     onClick = {
-                        selectedTempUnit.value = TempUnit.celsius
-                        viewModel.writeTempUnit(TempUnit.celsius)
+                        selectedWindSpeedUnit.value = WindSpeedUnit.meter
                         viewModel.writeWindSpeedUnit(WindSpeedUnit.meter)
-
+                        viewModel.writeTempUnit(TempUnit.celsius)
                     },
                     colors = RadioButtonDefaults.colors(Color(0xFF379DF1))
                 )
-
+                Spacer(modifier = Modifier.width(4.dp))
                 Text(
-                    text = TempUnit.celsius,
+                    text = WindSpeedUnit.meter,
                     color = Color.White,
-                    fontSize = 16.sp,
+                    fontSize = 18.sp,
 
                     )
-
+                Spacer(modifier = Modifier.width(24.dp))
 
                 RadioButton(
-                    selected = selectedTempUnit.value == TempUnit.kelvin,
+                    selected = selectedWindSpeedUnit.value == WindSpeedUnit.mile,
                     onClick = {
-                        selectedTempUnit.value = TempUnit.kelvin
-                        viewModel.writeTempUnit(TempUnit.kelvin)
-                        viewModel.writeWindSpeedUnit(WindSpeedUnit.meter)
-
-                    },
-                    colors = RadioButtonDefaults.colors(Color(0xFF379DF1))
-                )
-                Text(
-                    text = TempUnit.kelvin,
-                    color = Color.White,
-                    fontSize = 16.sp
-                )
-                RadioButton(
-                    selected = selectedTempUnit.value == TempUnit.fahrenheit,
-                    onClick = {
-                        selectedTempUnit.value = TempUnit.fahrenheit
-                        viewModel.writeTempUnit(TempUnit.fahrenheit)
+                        selectedWindSpeedUnit.value = WindSpeedUnit.mile
                         viewModel.writeWindSpeedUnit(WindSpeedUnit.mile)
-
+                        viewModel.writeTempUnit(TempUnit.fahrenheit)
                     },
                     colors = RadioButtonDefaults.colors(Color(0xFF379DF1))
                 )
+                Spacer(modifier = Modifier.width(2.dp))
                 Text(
-                    text = TempUnit.fahrenheit,
+                    text = WindSpeedUnit.mile,
                     color = Color.White,
                     fontSize = 16.sp
                 )
+
             }
         }
     }

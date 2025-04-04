@@ -1,4 +1,4 @@
-package com.example.weatherapp.Settings
+package com.example.weatherapp.settings
 
 
 import androidx.compose.foundation.background
@@ -12,10 +12,10 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
-import com.example.weatherapp.Settings.components.LanguageCard
-import com.example.weatherapp.Settings.components.LocationCard
-import com.example.weatherapp.Settings.components.TempUnitCard
-import com.example.weatherapp.Settings.components.WindSpeedUnitCard
+import com.example.weatherapp.settings.components.LanguageCard
+import com.example.weatherapp.settings.components.LocationCard
+import com.example.weatherapp.settings.components.TempUnitCard
+import com.example.weatherapp.settings.components.WindSpeedUnitCard
 import com.example.weatherapp.utils.Constants.SCREEN_PADDING
 
 @Composable

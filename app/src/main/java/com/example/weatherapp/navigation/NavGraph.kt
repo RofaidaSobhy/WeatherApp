@@ -14,26 +14,26 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
-import com.example.weatherapp.Map.MapFactory
-import com.example.weatherapp.Map.MapView
-import com.example.weatherapp.Map.MapViewModel
+import com.example.weatherapp.map.MapFactory
+import com.example.weatherapp.map.MapView
+import com.example.weatherapp.map.MapViewModel
 import com.example.weatherapp.R
-import com.example.weatherapp.Settings.SettingsFactory
-import com.example.weatherapp.Settings.SettingsView
-import com.example.weatherapp.Settings.SettingsViewModel
-import com.example.weatherapp.currentweather.HomeFactory
-import com.example.weatherapp.currentweather.HomeView
-import com.example.weatherapp.currentweather.HomeViewModel
+import com.example.weatherapp.settings.SettingsFactory
+import com.example.weatherapp.settings.SettingsView
+import com.example.weatherapp.settings.SettingsViewModel
+import com.example.weatherapp.home.HomeFactory
+import com.example.weatherapp.home.HomeView
+import com.example.weatherapp.home.HomeViewModel
 import com.example.weatherapp.data.local.LocalDataSourceImpl
 import com.example.weatherapp.data.local.settings.SettingsDaoImpl
-import com.example.weatherapp.data.local.settings.SettingsLocalDataSource
-import com.example.weatherapp.data.local.settings.SettingsLocalDataSourceImpl
 import com.example.weatherapp.ui.components.BottomNavItem
 import com.example.weatherapp.ui.components.BottomNavigationBar
 import com.example.weatherapp.data.remote.RetrofitHelper
 import com.example.weatherapp.data.remote.WeatherRemoteDataSourceImpl
 import com.example.weatherapp.data.repo.WeatherRepositoryImpl
-import com.example.weatherapp.data.repo.settings.SettingsRepositoryImpl
+import com.example.weatherapp.favorite.FavoriteFactory
+import com.example.weatherapp.favorite.FavoriteView
+import com.example.weatherapp.favorite.FavoriteViewModel
 
 @RequiresApi(Build.VERSION_CODES.O)
 @Composable
@@ -49,8 +49,11 @@ fun NavGraph(
     val bottomNavItems = remember {
         listOf(
             BottomNavItem(NavigationRoute.Home(), R.drawable.home, "Home"),
+            BottomNavItem(NavigationRoute.Favorite, R.drawable.favorite, "Favorite"),
             BottomNavItem(NavigationRoute.Settings, R.drawable.settings, "Settings"),
-        )
+
+
+            )
     }
 
     val backStackEntry= navController.currentBackStackEntryAsState().value
@@ -137,6 +140,25 @@ fun NavGraph(
 
                     ).get(MapViewModel::class.java)
                     , { route :NavigationRoute , inclusive:Boolean ->navController.popBackStack(route,inclusive)}
+                )
+            }
+
+            composable<NavigationRoute.Favorite> {
+                val context = LocalContext.current
+                val sharedPreferences = context.getSharedPreferences("AppSettings", Context.MODE_PRIVATE)
+                FavoriteView(
+                    ViewModelProvider(
+                        LocalContext.current as ViewModelStoreOwner,
+                        FavoriteFactory(
+                            WeatherRepositoryImpl.getInstance(
+                                WeatherRemoteDataSourceImpl(RetrofitHelper.apiService)
+                                ,LocalDataSourceImpl(
+                                    SettingsDaoImpl(sharedPreferences)
+                                )
+
+                            )
+                        )
+                    ).get(FavoriteViewModel::class.java)
                 )
             }
 

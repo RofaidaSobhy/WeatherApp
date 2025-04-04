@@ -1,4 +1,4 @@
-package com.example.weatherapp.currentweather.components
+package com.example.weatherapp.home.components
 
 import android.os.Build
 import androidx.annotation.RequiresApi
@@ -28,8 +28,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import com.bumptech.glide.integration.compose.ExperimentalGlideComposeApi
 import com.bumptech.glide.integration.compose.GlideImage
-import com.example.weatherapp.Settings.Constants.TempUnit
-import com.example.weatherapp.Settings.Constants.TempUnitSymbol
+import com.example.weatherapp.settings.Constants.TempUnitSymbol
 import com.example.weatherapp.data.models.ListOfWeather
 import com.example.weatherapp.data.models.WeatherForecastResponse
 import com.example.weatherapp.utils.DateTimeUtils

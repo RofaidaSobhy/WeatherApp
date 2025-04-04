@@ -1,4 +1,4 @@
-package com.example.weatherapp.Settings
+package com.example.weatherapp.settings
 
 import android.util.Log
 import androidx.lifecycle.ViewModel

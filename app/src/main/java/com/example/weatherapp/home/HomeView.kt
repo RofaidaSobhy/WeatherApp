@@ -1,11 +1,9 @@
-package com.example.weatherapp.currentweather
+package com.example.weatherapp.home
 
 import android.annotation.SuppressLint
 import android.os.Build
-import android.util.Log
 import androidx.annotation.RequiresApi
 import androidx.compose.foundation.background
-import androidx.compose.foundation.gestures.scrollable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
@@ -29,21 +27,19 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import com.example.weatherapp.Settings.Constants.Location
-import com.example.weatherapp.Settings.Constants.TempUnit
-import com.example.weatherapp.Settings.Constants.TempUnitAPI
-import com.example.weatherapp.Settings.Constants.TempUnitSymbol
-import com.example.weatherapp.currentweather.components.FiveDayWeatherForecastCard
-import com.example.weatherapp.currentweather.components.HourlyForecastCard
-import com.example.weatherapp.currentweather.components.MainWeatherCard
-import com.example.weatherapp.currentweather.components.WeatherItems
+import com.example.weatherapp.settings.Constants.Location
+import com.example.weatherapp.settings.Constants.TempUnit
+import com.example.weatherapp.settings.Constants.TempUnitSymbol
+import com.example.weatherapp.home.components.FiveDayWeatherForecastCard
+import com.example.weatherapp.home.components.HourlyForecastCard
+import com.example.weatherapp.home.components.MainWeatherCard
+import com.example.weatherapp.home.components.WeatherItems
 import com.example.weatherapp.data.models.Response.Response
 import com.example.weatherapp.data.models.CurrentWeatherResponse
 import com.example.weatherapp.data.models.ListOfWeather
 import com.example.weatherapp.data.models.WeatherForecastResponse
 import com.example.weatherapp.utils.Constants.SCREEN_PADDING
 import com.example.weatherapp.utils.TemperatureUtils
-import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.filter
 
 

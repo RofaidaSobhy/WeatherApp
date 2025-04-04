@@ -1,4 +1,4 @@
-package com.example.weatherapp.Map
+package com.example.weatherapp.map
 
 import android.content.pm.PackageManager
 import android.util.Log
@@ -30,7 +30,6 @@ import com.example.weatherapp.navigation.NavigationRoute
 import com.example.weatherapp.ui.components.SearchBar
 import com.google.android.gms.location.LocationServices
 import com.google.android.gms.maps.model.CameraPosition
-import com.google.android.gms.maps.model.LatLng
 import com.google.maps.android.compose.GoogleMap
 import com.google.maps.android.compose.Marker
 import com.google.maps.android.compose.MarkerState

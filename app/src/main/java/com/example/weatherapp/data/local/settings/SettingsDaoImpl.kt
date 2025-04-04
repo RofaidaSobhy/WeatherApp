@@ -1,9 +1,9 @@
 package com.example.weatherapp.data.local.settings
 
 import android.content.SharedPreferences
-import com.example.weatherapp.Settings.Constants.Location
-import com.example.weatherapp.Settings.Constants.TempUnit
-import com.example.weatherapp.Settings.Constants.WindSpeedUnit
+import com.example.weatherapp.settings.Constants.Location
+import com.example.weatherapp.settings.Constants.TempUnit
+import com.example.weatherapp.settings.Constants.WindSpeedUnit
 import com.example.weatherapp.utils.Constants.LATITUDE
 import com.example.weatherapp.utils.Constants.LOCATION_METHOD
 import com.example.weatherapp.utils.Constants.LONGITUDE
