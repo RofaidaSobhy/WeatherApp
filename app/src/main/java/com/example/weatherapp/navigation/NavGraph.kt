@@ -14,6 +14,9 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
+import com.example.weatherapp.Map.MapFactory
+import com.example.weatherapp.Map.MapView
+import com.example.weatherapp.Map.MapViewModel
 import com.example.weatherapp.R
 import com.example.weatherapp.Settings.SettingsFactory
 import com.example.weatherapp.Settings.SettingsView
@@ -37,6 +40,9 @@ import com.example.weatherapp.data.repo.settings.SettingsRepositoryImpl
 fun NavGraph(
     navController: NavHostController,
     startDestination: NavigationRoute,
+    latitude:Double,
+    longitude:Double
+
 
 ){
 
@@ -70,8 +76,8 @@ fun NavGraph(
             , startDestination = startDestination
         ){
             composable<NavigationRoute.Home>(){
-                val latitude:Double = 26.820553
-                val longitude:Double = 30.802498
+//                val latitude:Double = 26.820553
+//                val longitude:Double = 30.802498
                 val context = LocalContext.current
                 val sharedPreferences = context.getSharedPreferences("AppSettings", Context.MODE_PRIVATE)
 
@@ -108,6 +114,27 @@ fun NavGraph(
                             )
                         )
                     ).get(SettingsViewModel::class.java)
+                    ,
+                    {navController.navigate(NavigationRoute.Map)}
+                )
+            }
+
+            composable<NavigationRoute.Map> {
+                val context = LocalContext.current
+                val sharedPreferences = context.getSharedPreferences("AppSettings", Context.MODE_PRIVATE)
+                MapView(
+                    ViewModelProvider(
+                        LocalContext.current as ViewModelStoreOwner,
+                        MapFactory(
+                            WeatherRepositoryImpl.getInstance(
+                                WeatherRemoteDataSourceImpl(RetrofitHelper.apiService)
+                                ,LocalDataSourceImpl(
+                                    SettingsDaoImpl(sharedPreferences)
+                                )
+
+                            )
+                        )
+                    ).get(MapViewModel::class.java)
                 )
             }
 

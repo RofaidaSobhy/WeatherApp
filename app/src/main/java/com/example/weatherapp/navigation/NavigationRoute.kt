@@ -14,7 +14,8 @@ sealed class NavigationRoute {
     }
     @Serializable
     data class Home(val latitude:Double = 0.0, val longitude:Double = 0.0):NavigationRoute()
-
+    @Serializable
+    object Map:NavigationRoute()
     @Serializable
     object Settings: NavigationRoute()
 }
