@@ -134,7 +134,9 @@ fun NavGraph(
 
                             )
                         )
+
                     ).get(MapViewModel::class.java)
+                    , { route :NavigationRoute , inclusive:Boolean ->navController.popBackStack(route,inclusive)}
                 )
             }
 

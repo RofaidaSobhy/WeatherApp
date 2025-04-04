@@ -38,6 +38,30 @@ class WeatherRepositoryImpl private constructor(
         localDataSource.writeWindSpeedUnit(windSpeedUnit)
     }
 
+    override suspend fun readLocationMethod(): Flow<String> {
+        return localDataSource.readLocationMethod()
+    }
+
+    override suspend fun writeLocationMethod(locationMethod: String) {
+        localDataSource.writeLocationMethod(locationMethod)
+    }
+
+    override suspend fun readLatitude(): Flow<String> {
+        return localDataSource.readLatitude()
+    }
+
+    override suspend fun writeLatitude(latitude: String) {
+        localDataSource.writeLatitude(latitude)
+    }
+
+    override suspend fun readLongitude(): Flow<String> {
+        return localDataSource.readLongitude()
+    }
+
+    override suspend fun writeLongitude(longitude: String) {
+        localDataSource.writeLongitude(longitude)
+    }
+
 
     override suspend fun readOldTempUnit(): Flow<String> {
         return localDataSource.readOldTempUnit()

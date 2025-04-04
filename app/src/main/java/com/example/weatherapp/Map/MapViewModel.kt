@@ -13,6 +13,8 @@ import com.example.weatherapp.data.repo.WeatherRepository
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.maps.model.LatLng
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
@@ -23,9 +25,15 @@ class MapViewModel (private val repo : WeatherRepository) : ViewModel() {
     private val mutableUserLocation = mutableStateOf<LatLng?>(null)
     val userLocation: State<LatLng?> = mutableUserLocation
 
-    // State to hold the selected place location as LatLng
     private val mutableSelectedLocation = mutableStateOf<LatLng?>(null)
     var selectedLocation: State<LatLng?> = mutableSelectedLocation
+
+    /*private val mutableLatitude=  MutableStateFlow("")
+    val latitude = mutableLatitude.asStateFlow()
+
+
+    private val mutableLongitude=  MutableStateFlow("")
+    val longitude = mutableLongitude.asStateFlow()*/
 
     // Function to fetch the user's location and update the state
     fun fetchUserLocation(context: Context, fusedLocationClient: FusedLocationProviderClient) {
@@ -72,6 +80,20 @@ class MapViewModel (private val repo : WeatherRepository) : ViewModel() {
     }
     fun setSelectedLocation(latLng: LatLng) {
         mutableSelectedLocation.value = latLng
+    }
+
+    fun writeLatitude(latitude:String){
+        viewModelScope.launch (Dispatchers.IO) {
+            //mutableLatitude.value = latitude
+            repo.writeLatitude(latitude)
+        }
+    }
+
+    fun writeLongitude(longitude:String){
+        viewModelScope.launch (Dispatchers.IO) {
+            //mutableLongitude.value = longitude
+            repo.writeLongitude(longitude)
+        }
     }
 
 }

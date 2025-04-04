@@ -32,6 +32,16 @@ class HomeViewModel (private val repo : WeatherRepository) : ViewModel() {
     private val mutableWindSpeedUnit=  MutableStateFlow("")
     val windSpeedUnit= mutableWindSpeedUnit.asStateFlow()
 
+    private val mutableLatitude=  MutableStateFlow("0.0")
+    val latitude = mutableLatitude.asStateFlow()
+
+
+    private val mutableLongitude=  MutableStateFlow("0.0")
+    val longitude = mutableLongitude.asStateFlow()
+
+    private val mutableLocationMethod=  MutableStateFlow("")
+    val locationMethod = mutableLocationMethod.asStateFlow()
+
     private val mutableOldTempUnit=  MutableStateFlow("")
     val oldTempUnit= mutableOldTempUnit.asStateFlow()
 
@@ -109,6 +119,34 @@ class HomeViewModel (private val repo : WeatherRepository) : ViewModel() {
             }
         }
     }
+
+    fun readLatitude(){
+        viewModelScope.launch (Dispatchers.IO) {
+            val result = repo.readLatitude()
+            result.collect{
+                mutableLatitude.value=it
+            }
+        }
+    }
+
+    fun readLongitude(){
+        viewModelScope.launch (Dispatchers.IO) {
+            val result = repo.readLongitude()
+            result.collect{
+                mutableLongitude.value=it
+            }
+        }
+    }
+
+    fun readLocationMethod(){
+        viewModelScope.launch (Dispatchers.IO) {
+            val result = repo.readLocationMethod()
+            result.collect{
+                mutableLocationMethod.value=it
+            }
+        }
+    }
+
     fun readOldTempUnit(){
         viewModelScope.launch (Dispatchers.IO) {
             val result = repo.readOldTempUnit()

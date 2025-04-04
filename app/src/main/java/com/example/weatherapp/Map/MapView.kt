@@ -26,6 +26,7 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.core.content.ContextCompat
+import com.example.weatherapp.navigation.NavigationRoute
 import com.example.weatherapp.ui.components.SearchBar
 import com.google.android.gms.location.LocationServices
 import com.google.android.gms.maps.model.CameraPosition
@@ -37,7 +38,7 @@ import com.google.maps.android.compose.rememberCameraPositionState
 import timber.log.Timber
 
 @Composable
-fun MapView(viewModel: MapViewModel) {
+fun MapView(viewModel: MapViewModel , action: (NavigationRoute, Boolean)->Boolean) {
     // Initialize the camera position state
     val cameraPositionState = rememberCameraPositionState()/*{
         position = CameraPosition.fromLatLngZoom(LatLng(51.5074, -0.1278), 10f)
@@ -135,6 +136,9 @@ fun MapView(viewModel: MapViewModel) {
             onClick = {
                 selectedLocation?.let {
                     Log.i("TAG", "Select clicked at latitude = ${it.latitude}, longitude = ${it.longitude}")
+                    viewModel.writeLatitude((it.latitude).toString())
+                    viewModel.writeLongitude((it.longitude).toString())
+                    action.invoke(NavigationRoute.Settings, false)
                 }
             }
         ) {

@@ -29,6 +29,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.example.weatherapp.Settings.Constants.Location
 import com.example.weatherapp.Settings.Constants.TempUnit
 import com.example.weatherapp.Settings.Constants.TempUnitAPI
 import com.example.weatherapp.Settings.Constants.TempUnitSymbol
@@ -66,8 +67,31 @@ fun HomeView(viewModel: HomeViewModel, latitude:Double, longitude:Double) {
             viewModel.getWeatherForecast(latitude, longitude, units = TempUnitAPI.fahrenheit)
         }
     }*/
-    viewModel.getCurrentWeather(latitude, longitude)
-    viewModel.getWeatherForecast(latitude, longitude)
+
+    viewModel.readLocationMethod()
+    val savedLocationMethod = viewModel.locationMethod.value
+
+
+    when(savedLocationMethod){
+        Location.gps -> {
+            viewModel.getCurrentWeather(latitude, longitude)
+            viewModel.getWeatherForecast(latitude, longitude)
+        }
+        Location.map -> {
+
+            viewModel.readLatitude()
+            viewModel.readLongitude()
+
+            val savedLatitude = viewModel.latitude.value
+            val savedLongitude = viewModel.longitude.value
+
+            viewModel.getCurrentWeather(savedLatitude.toDouble(), savedLongitude.toDouble())
+            viewModel.getWeatherForecast(savedLatitude.toDouble(), savedLongitude.toDouble())
+
+
+        }
+    }
+
     val currentWeatherState by viewModel.currentWeather.collectAsStateWithLifecycle()
     val weatherForecastState by viewModel.weatherForecast.collectAsStateWithLifecycle()
 
