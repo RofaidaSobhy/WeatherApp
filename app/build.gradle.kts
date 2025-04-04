@@ -89,4 +89,17 @@ dependencies {
     implementation ("androidx.compose.runtime:runtime-livedata:$compose_version")
 
 
+    val mapsCompose = "4.3.3"
+    val places = "3.5.0"
+    val playServicesMaps = "19.0.0"
+    // Google Maps SDK for Android
+    implementation("com.google.android.libraries.places:places:$places")
+    implementation("com.google.android.gms:play-services-maps:$playServicesMaps")
+
+    // Google maps Compose
+    implementation("com.google.maps.android:maps-compose:$mapsCompose")
+
+    val timber = "5.0.1"
+    //timber
+    implementation("com.jakewharton.timber:timber:$timber")
 }

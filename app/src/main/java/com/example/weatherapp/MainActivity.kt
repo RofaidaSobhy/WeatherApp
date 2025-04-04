@@ -25,12 +25,14 @@ import com.example.weatherapp.utils.Constants.REQUEST_LOCATION_CODE
 import com.example.weatherapp.utils.LocationUtils.checkedPermissions
 import com.example.weatherapp.utils.LocationUtils.enableLocationServices
 import com.example.weatherapp.utils.LocationUtils.isLocationEnabled
+import com.example.weatherapp.utils.ManifestUtils
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationCallback
 import com.google.android.gms.location.LocationRequest
 import com.google.android.gms.location.LocationResult
 import com.google.android.gms.location.LocationServices
 import com.google.android.gms.location.Priority
+import com.google.android.libraries.places.api.Places
 
 class MainActivity : ComponentActivity() {
     private lateinit var fusedLocationProviderClient: FusedLocationProviderClient
@@ -38,6 +40,15 @@ class MainActivity : ComponentActivity() {
     @RequiresApi(Build.VERSION_CODES.O)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        // Retrieve the API key from the manifest file
+        val apiKey = ManifestUtils.getApiKeyFromManifest(this)
+        // Initialize the Places API with the retrieved API key
+        if (!Places.isInitialized() && apiKey != null) {
+            Places.initialize(applicationContext, apiKey)
+        }
+
+
         setContent {
             Surface(
                 modifier = Modifier.fillMaxSize(),
@@ -47,7 +58,7 @@ class MainActivity : ComponentActivity() {
                 locationState = remember{ mutableStateOf(Location(LocationManager.GPS_PROVIDER)) }
                 val latitude:Double = locationState.value.latitude
                 val longitude:Double = locationState.value.longitude
-                NavGraph(navController = navController, NavigationRoute.Home(latitude,longitude))
+                NavGraph(navController = navController, NavigationRoute.Home(latitude,longitude),latitude,longitude)
             }
         }
     }

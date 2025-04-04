@@ -19,7 +19,7 @@ import com.example.weatherapp.Settings.components.WindSpeedUnitCard
 import com.example.weatherapp.utils.Constants.SCREEN_PADDING
 
 @Composable
-fun SettingsView(viewModel: SettingsViewModel) {
+fun SettingsView(viewModel: SettingsViewModel, action : ()-> Unit) {
     Box(
         modifier = Modifier
             .fillMaxSize()
@@ -35,7 +35,7 @@ fun SettingsView(viewModel: SettingsViewModel) {
             Spacer(modifier = Modifier.height(10.dp))
             TempUnitCard(viewModel)
             Spacer(modifier = Modifier.height(10.dp))
-            LocationCard()
+            LocationCard(action)
             Spacer(modifier = Modifier.height(10.dp))
             WindSpeedUnitCard(viewModel)
 
