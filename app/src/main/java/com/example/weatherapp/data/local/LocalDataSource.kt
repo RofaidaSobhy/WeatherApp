@@ -1,5 +1,6 @@
 package com.example.weatherapp.data.local
 
+import com.example.weatherapp.data.models.FavLocation
 import kotlinx.coroutines.flow.Flow
 
 interface LocalDataSource {
@@ -15,4 +16,9 @@ interface LocalDataSource {
     suspend fun writeLongitude(longitude: String)
     suspend fun readOldTempUnit(): Flow<String>
     suspend fun writeOldTempUnit(oldTempUnit: String)
+
+
+    suspend fun getFavLocations(): Flow<List<FavLocation>>
+    suspend fun insertFavLocation(favLocation: FavLocation): Long
+    suspend fun deleteFavLocation(favLocation: FavLocation?): Int
 }

@@ -1,6 +1,7 @@
 package com.example.weatherapp.map
 
 import android.content.pm.PackageManager
+import android.location.Geocoder
 import android.util.Log
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
@@ -26,6 +27,7 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.core.content.ContextCompat
+import com.example.weatherapp.data.models.FavLocation
 import com.example.weatherapp.navigation.NavigationRoute
 import com.example.weatherapp.ui.components.SearchBar
 import com.google.android.gms.location.LocationServices
@@ -37,7 +39,7 @@ import com.google.maps.android.compose.rememberCameraPositionState
 import timber.log.Timber
 
 @Composable
-fun MapView(viewModel: MapViewModel , action: (NavigationRoute, Boolean)->Boolean) {
+fun MapView(viewModel: MapViewModel , actionName:String,action: (NavigationRoute, Boolean)->Boolean) {
     // Initialize the camera position state
     val cameraPositionState = rememberCameraPositionState()/*{
         position = CameraPosition.fromLatLngZoom(LatLng(51.5074, -0.1278), 10f)
@@ -125,8 +127,7 @@ fun MapView(viewModel: MapViewModel , action: (NavigationRoute, Boolean)->Boolea
         Spacer(modifier = Modifier.height(18.dp))
         Button(
             modifier = Modifier
-                .width(150.dp)
-                .height(50.dp)
+
                 .align(Alignment.CenterHorizontally),
             colors = ButtonDefaults.buttonColors(
                 containerColor = Color(0xFF222A36),
@@ -134,14 +135,26 @@ fun MapView(viewModel: MapViewModel , action: (NavigationRoute, Boolean)->Boolea
             ),
             onClick = {
                 selectedLocation?.let {
-                    Log.i("TAG", "Select clicked at latitude = ${it.latitude}, longitude = ${it.longitude}")
-                    viewModel.writeLatitude((it.latitude).toString())
-                    viewModel.writeLongitude((it.longitude).toString())
-                    action.invoke(NavigationRoute.Settings, false)
+                    if(actionName == "Select"){
+                        Log.i("TAG", "Select clicked at latitude = ${it.latitude}, longitude = ${it.longitude}")
+                        viewModel.writeLatitude((it.latitude).toString())
+                        viewModel.writeLongitude((it.longitude).toString())
+                        action.invoke(NavigationRoute.Settings, false)
+
+                    }else if(actionName == "Add To Favorite"){
+                        val geocoder = Geocoder(context)
+                        val address= geocoder.getFromLocation(it.latitude,it.longitude,1)
+                        val country = address?.get(0)?.countryName ?: ""
+                        val city =address?.get(0)?.locality ?: address?.get(0)?.adminArea ?: address?.get(0)?.featureName ?: country
+                        val favLocation = FavLocation(it.latitude,it.longitude,country,city)
+                        viewModel.addToFavorites(favLocation)
+                        action.invoke(NavigationRoute.Favorite, false)
+                    }
+
                 }
             }
         ) {
-            Text("Select", fontSize = 24.sp)
+            Text(text = actionName, fontSize = 24.sp )
         }
     }
 }

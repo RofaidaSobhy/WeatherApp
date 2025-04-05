@@ -2,6 +2,7 @@ package com.example.weatherapp.home
 
 import android.annotation.SuppressLint
 import android.os.Build
+import android.util.Log
 import androidx.annotation.RequiresApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
@@ -46,7 +47,8 @@ import kotlinx.coroutines.flow.filter
 @SuppressLint("StateFlowValueCalledInComposition")
 @RequiresApi(Build.VERSION_CODES.O)
 @Composable
-fun HomeView(viewModel: HomeViewModel, latitude:Double, longitude:Double) {
+fun HomeView(viewModel: HomeViewModel, latitude:Double, longitude:Double , isFromFav:Boolean) {
+    Log.i("TAG", "HomeView: latitude = $latitude, longitude = $longitude")
     /*viewModel.readTempUnit()
     val savedTempUnit = viewModel.tempUnit.value
     when (savedTempUnit) {
@@ -67,26 +69,32 @@ fun HomeView(viewModel: HomeViewModel, latitude:Double, longitude:Double) {
     viewModel.readLocationMethod()
     val savedLocationMethod = viewModel.locationMethod.value
 
+    if(isFromFav){
+        viewModel.getCurrentWeather(latitude, longitude)
+        viewModel.getWeatherForecast(latitude, longitude)
+    }else{
+        when(savedLocationMethod){
+            Location.gps -> {
+                viewModel.getCurrentWeather(latitude, longitude)
+                viewModel.getWeatherForecast(latitude, longitude)
+            }
+            Location.map -> {
 
-    when(savedLocationMethod){
-        Location.gps -> {
-            viewModel.getCurrentWeather(latitude, longitude)
-            viewModel.getWeatherForecast(latitude, longitude)
-        }
-        Location.map -> {
+                viewModel.readLatitude()
+                viewModel.readLongitude()
 
-            viewModel.readLatitude()
-            viewModel.readLongitude()
+                val savedLatitude = viewModel.latitude.value
+                val savedLongitude = viewModel.longitude.value
 
-            val savedLatitude = viewModel.latitude.value
-            val savedLongitude = viewModel.longitude.value
-
-            viewModel.getCurrentWeather(savedLatitude.toDouble(), savedLongitude.toDouble())
-            viewModel.getWeatherForecast(savedLatitude.toDouble(), savedLongitude.toDouble())
+                viewModel.getCurrentWeather(savedLatitude.toDouble(), savedLongitude.toDouble())
+                viewModel.getWeatherForecast(savedLatitude.toDouble(), savedLongitude.toDouble())
 
 
+            }
         }
     }
+
+
 
     val currentWeatherState by viewModel.currentWeather.collectAsStateWithLifecycle()
     val weatherForecastState by viewModel.weatherForecast.collectAsStateWithLifecycle()

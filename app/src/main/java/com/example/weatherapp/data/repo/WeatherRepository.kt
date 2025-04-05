@@ -1,6 +1,7 @@
 package com.example.weatherapp.data.repo
 
 import com.example.weatherapp.data.models.CurrentWeatherResponse
+import com.example.weatherapp.data.models.FavLocation
 import com.example.weatherapp.data.models.WeatherForecastResponse
 import kotlinx.coroutines.flow.Flow
 
@@ -19,4 +20,9 @@ interface WeatherRepository {
     suspend fun writeLongitude(longitude: String)
     suspend fun readOldTempUnit() : Flow<String>
     suspend fun writeOldTempUnit(oldTempUnit:String)
+
+
+    suspend fun getFavLocations(): Flow<List<FavLocation>?>
+    suspend fun addFavLocation(favLocation: FavLocation):Long
+    suspend fun removeFavLocation(favLocation: FavLocation):Int
 }

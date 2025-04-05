@@ -13,10 +13,10 @@ sealed class NavigationRoute {
         }
     }
     @Serializable
-    data class Home(val latitude:Double = 0.0, val longitude:Double = 0.0):NavigationRoute()
+    data class Home(val latitude:Double = 0.0, val longitude:Double = 0.0, val isFromFav:Boolean = false):NavigationRoute()
 
     @Serializable
-    object Map: NavigationRoute()
+    data class Map(val actionName:String): NavigationRoute()
     @Serializable
     object Favorite: NavigationRoute()
     @Serializable

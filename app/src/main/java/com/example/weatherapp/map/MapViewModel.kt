@@ -9,10 +9,13 @@ import androidx.core.content.ContextCompat
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
+import com.example.weatherapp.data.models.FavLocation
 import com.example.weatherapp.data.repo.WeatherRepository
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.maps.model.LatLng
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.MutableSharedFlow
+import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
@@ -32,6 +35,9 @@ class MapViewModel (private val repo : WeatherRepository) : ViewModel() {
 
     private val mutableLongitude=  MutableStateFlow("")
     val longitude = mutableLongitude.asStateFlow()*/
+
+    private val mutableMessage= MutableSharedFlow<String>()
+    val message = mutableMessage.asSharedFlow()
 
     // Function to fetch the user's location and update the state
     fun fetchUserLocation(context: Context, fusedLocationClient: FusedLocationProviderClient) {
@@ -91,6 +97,27 @@ class MapViewModel (private val repo : WeatherRepository) : ViewModel() {
         viewModelScope.launch (Dispatchers.IO) {
             //mutableLongitude.value = longitude
             repo.writeLongitude(longitude)
+        }
+    }
+
+    fun addToFavorites(favLocation: FavLocation?){
+        viewModelScope.launch (Dispatchers.IO) {
+            if (favLocation != null) {
+
+                try {
+                    val result = repo.addFavLocation(favLocation)
+                    if (result > 0) {
+                        mutableMessage.emit("Added Successfully!")
+                    } else {
+                        mutableMessage.emit("Location is Already in Favorites!")
+                    }
+                } catch (ex: Exception) {
+                    mutableMessage.emit("Couldn't Add Location, ${ex.message}")
+                }
+
+            } else {
+                mutableMessage.emit("Couldn't Add Location, Missing data")
+            }
         }
     }
 

@@ -55,6 +55,8 @@ dependencies {
     implementation(libs.androidx.material3)
     implementation(libs.androidx.lifecycle.runtime.compose.android)
     implementation(libs.play.services.location)
+    /*implementation(libs.androidx.compose.material)
+    implementation(libs.androidx.constraintlayout.compose.android)*/
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
@@ -102,4 +104,6 @@ dependencies {
     val timber = "5.0.1"
     //timber
     implementation("com.jakewharton.timber:timber:$timber")
+
+
 }

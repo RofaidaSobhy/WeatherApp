@@ -2,6 +2,7 @@ package com.example.weatherapp.navigation
 
 import android.content.Context
 import android.os.Build
+import android.util.Log
 import androidx.annotation.RequiresApi
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
@@ -25,6 +26,7 @@ import com.example.weatherapp.home.HomeFactory
 import com.example.weatherapp.home.HomeView
 import com.example.weatherapp.home.HomeViewModel
 import com.example.weatherapp.data.local.LocalDataSourceImpl
+import com.example.weatherapp.data.local.favlocation.FavLocationDatabase
 import com.example.weatherapp.data.local.settings.SettingsDaoImpl
 import com.example.weatherapp.ui.components.BottomNavItem
 import com.example.weatherapp.ui.components.BottomNavigationBar
@@ -78,7 +80,19 @@ fun NavGraph(
             navController= navController
             , startDestination = startDestination
         ){
-            composable<NavigationRoute.Home>(){
+            composable<NavigationRoute.Home>(){backStackEntry ->
+                val isFromFav = backStackEntry.arguments?.getBoolean("isFromFav") ?: false
+
+                var currentLatitude:Double
+                var currentLongitude:Double
+                if(isFromFav == true){
+                    currentLatitude = backStackEntry.arguments?.getDouble("latitude") ?: 0.0
+                    currentLongitude = backStackEntry.arguments?.getDouble("longitude") ?: 0.0
+                }else{
+                    currentLatitude = latitude
+                    currentLongitude = longitude
+                }
+
 //                val latitude:Double = 26.820553
 //                val longitude:Double = 30.802498
                 val context = LocalContext.current
@@ -91,14 +105,17 @@ fun NavGraph(
                             WeatherRemoteDataSourceImpl(RetrofitHelper.apiService)
                             ,LocalDataSourceImpl(
                                 SettingsDaoImpl(sharedPreferences)
+                                , FavLocationDatabase.getInstance(context).getFavLocationDao()
                             )
 
                         )
                     )
                 ).get(HomeViewModel::class.java),
-                    latitude,
-                    longitude
+                    currentLatitude,
+                    currentLongitude,
+                    isFromFav
                 )
+
             }
 
             composable<NavigationRoute.Settings> {
@@ -112,17 +129,20 @@ fun NavGraph(
                                WeatherRemoteDataSourceImpl(RetrofitHelper.apiService)
                                ,LocalDataSourceImpl(
                                    SettingsDaoImpl(sharedPreferences)
+                                   , FavLocationDatabase.getInstance(context).getFavLocationDao()
                                )
 
                             )
                         )
                     ).get(SettingsViewModel::class.java)
                     ,
-                    {navController.navigate(NavigationRoute.Map)}
+                    {navController.navigate(NavigationRoute.Map("Select"))}
                 )
             }
 
-            composable<NavigationRoute.Map> {
+            composable<NavigationRoute.Map> {backStackEntry ->
+                // Retrieve the actionName parameter passed from the previous screen
+                val actionName = backStackEntry.arguments?.getString("actionName") ?: "Add To Favorite"
                 val context = LocalContext.current
                 val sharedPreferences = context.getSharedPreferences("AppSettings", Context.MODE_PRIVATE)
                 MapView(
@@ -133,13 +153,15 @@ fun NavGraph(
                                 WeatherRemoteDataSourceImpl(RetrofitHelper.apiService)
                                 ,LocalDataSourceImpl(
                                     SettingsDaoImpl(sharedPreferences)
+                                    , FavLocationDatabase.getInstance(context).getFavLocationDao()
                                 )
 
                             )
                         )
 
                     ).get(MapViewModel::class.java)
-                    , { route :NavigationRoute , inclusive:Boolean ->navController.popBackStack(route,inclusive)}
+                    , actionName
+                    ,{ route :NavigationRoute , inclusive:Boolean ->navController.popBackStack(route,inclusive)}
                 )
             }
 
@@ -154,11 +176,18 @@ fun NavGraph(
                                 WeatherRemoteDataSourceImpl(RetrofitHelper.apiService)
                                 ,LocalDataSourceImpl(
                                     SettingsDaoImpl(sharedPreferences)
+                                    , FavLocationDatabase.getInstance(context).getFavLocationDao()
                                 )
 
                             )
                         )
                     ).get(FavoriteViewModel::class.java)
+                    ,{navController.navigate(NavigationRoute.Map("Add To Favorite"))}
+                    , {
+                        latitude:Double, longitude:Double ->
+                        Log.i("TAG", "NavGraph: From fav:Latitude = $latitude, longitude = $longitude ")
+                        navController.navigate(NavigationRoute.Home(latitude,longitude,true))
+                    }
                 )
             }
 

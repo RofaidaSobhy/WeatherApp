@@ -1,9 +1,11 @@
 package com.example.weatherapp.data.local
 
+import com.example.weatherapp.data.local.favlocation.FavLocationDao
 import com.example.weatherapp.data.local.settings.SettingsDao
+import com.example.weatherapp.data.models.FavLocation
 import kotlinx.coroutines.flow.Flow
 
-class LocalDataSourceImpl(private val settingsDao: SettingsDao): LocalDataSource {
+class LocalDataSourceImpl(private val settingsDao: SettingsDao, private val favLocationDao : FavLocationDao): LocalDataSource {
     override suspend fun readTempUnit(): Flow<String> {
         return settingsDao.readTempUnit()
     }
@@ -50,4 +52,20 @@ class LocalDataSourceImpl(private val settingsDao: SettingsDao): LocalDataSource
     override suspend fun writeOldTempUnit(oldTempUnit: String) {
         settingsDao.writeTempUnit(oldTempUnit)
     }
+
+    override suspend fun getFavLocations(): Flow<List<FavLocation>> {
+        return favLocationDao.getAllFavoriteLocations()
+    }
+
+    override suspend fun insertFavLocation(favLocation: FavLocation): Long {
+        return favLocationDao.insertFavLocation(favLocation)
+    }
+
+    override suspend fun deleteFavLocation(favLocation: FavLocation?): Int {
+        return if(favLocation!=null)
+            favLocationDao.deleteFavLocation(favLocation)
+        else
+            -1
+    }
+
 }
