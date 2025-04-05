@@ -18,7 +18,7 @@ import androidx.compose.ui.unit.dp
 import com.example.weatherapp.R
 
 @Composable
-fun FAB(action : ()-> Unit) {
+fun FavoriteFAB(action : ()-> Unit) {
     Box (modifier = Modifier.fillMaxSize()){
         FloatingActionButton(
 

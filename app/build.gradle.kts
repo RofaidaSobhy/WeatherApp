@@ -55,6 +55,7 @@ dependencies {
     implementation(libs.androidx.material3)
     implementation(libs.androidx.lifecycle.runtime.compose.android)
     implementation(libs.play.services.location)
+    implementation(libs.androidx.storage)
     /*implementation(libs.androidx.compose.material)
     implementation(libs.androidx.constraintlayout.compose.android)*/
     testImplementation(libs.junit)
@@ -128,5 +129,9 @@ dependencies {
     androidTestImplementation ("androidx.test.ext:junit:1.1.3 ")
     androidTestImplementation("androidx.test.espresso:espresso-core:3.4.0")
 
+
+    //Time & Date Picker
+    implementation ("io.github.vanpra.compose-material-dialogs:datetime:0.8.1-rc")
+    coreLibraryDesugaring ("com.android.tools:desugar_jdk_libs:1.1.6")
 
 }
