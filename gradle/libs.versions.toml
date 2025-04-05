@@ -10,6 +10,8 @@ activityCompose = "1.10.1"
 composeBom = "2024.04.01"
 lifecycleRuntimeComposeAndroid = "2.8.7"
 playServicesLocation = "21.3.0"
+composeMaterial = "1.4.1"
+constraintlayoutComposeAndroid = "1.1.1"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }

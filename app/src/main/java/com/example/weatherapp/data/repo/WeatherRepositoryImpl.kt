@@ -3,6 +3,7 @@ package com.example.weatherapp.data.repo
 
 import com.example.weatherapp.data.local.LocalDataSource
 import com.example.weatherapp.data.models.CurrentWeatherResponse
+import com.example.weatherapp.data.models.FavLocation
 import com.example.weatherapp.data.models.WeatherForecastResponse
 import com.example.weatherapp.data.remote.WeatherRemoteDataSource
 import kotlinx.coroutines.flow.Flow
@@ -69,6 +70,18 @@ class WeatherRepositoryImpl private constructor(
 
     override suspend fun writeOldTempUnit(oldTempUnit: String) {
         localDataSource.writeOldTempUnit(oldTempUnit)
+    }
+
+    override suspend fun getFavLocations(): Flow<List<FavLocation>?> {
+        return localDataSource.getFavLocations()
+    }
+
+    override suspend fun addFavLocation(favLocation: FavLocation): Long {
+        return  localDataSource.insertFavLocation(favLocation)
+    }
+
+    override suspend fun removeFavLocation(favLocation: FavLocation): Int {
+        return  localDataSource.deleteFavLocation(favLocation)
     }
 
     companion object{
