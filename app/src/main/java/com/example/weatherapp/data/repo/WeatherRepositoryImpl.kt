@@ -8,7 +8,7 @@ import com.example.weatherapp.data.models.WeatherForecastResponse
 import com.example.weatherapp.data.remote.WeatherRemoteDataSource
 import kotlinx.coroutines.flow.Flow
 
-class WeatherRepositoryImpl private constructor(
+class WeatherRepositoryImpl (
     private val remoteDataSource:WeatherRemoteDataSource,
     private val localDataSource: LocalDataSource
 )

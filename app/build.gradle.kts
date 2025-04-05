@@ -106,4 +106,27 @@ dependencies {
     implementation("com.jakewharton.timber:timber:$timber")
 
 
+    //Testing
+    androidTestImplementation("androidx.test:runner:1.5.2")
+    androidTestImplementation ("org.hamcrest:hamcrest:2.2")
+    androidTestImplementation ("org.hamcrest:hamcrest-library:2.2")
+
+    androidTestImplementation ("androidx.arch.core:core-testing:2.1.0")
+    testImplementation ("androidx.test.ext:junit-ktx:1.1.5")
+    testImplementation ("androidx.test:core-ktx:1.5.0")
+    testImplementation ("org.robolectric:robolectric:4.11")
+    testImplementation ("androidx.arch.core:core-testing:2.1.0")
+    testImplementation ("org.hamcrest:hamcrest:2.2")
+    testImplementation ("org.hamcrest:hamcrest-library:2.2")
+    testImplementation("androidx.arch.core:core-testing:2.1.0")
+    testImplementation("org.robolectric:robolectric:4.12.2")
+    testImplementation("org.jetbrains.kotlinx:kotlinx-coroutines-test:1.6.0")
+    testImplementation ("io.mockk:mockk-android:1.13.17")
+    testImplementation ("io.mockk:mockk-agent:1.13.17")
+    testImplementation ("androidx.arch.core:core-testing:2.1.0")
+    testImplementation ("androidx.test:core-ktx:1.5.0")
+    androidTestImplementation ("androidx.test.ext:junit:1.1.3 ")
+    androidTestImplementation("androidx.test.espresso:espresso-core:3.4.0")
+
+
 }
