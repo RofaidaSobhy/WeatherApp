@@ -40,6 +40,7 @@ import com.example.weatherapp.notification.NotificationFactory
 import com.example.weatherapp.notification.NotificationView
 import com.example.weatherapp.notification.NotificationViewModel
 import com.example.weatherapp.notification.PickTimeAndDateView
+import com.example.weatherapp.notification.helpers.scheduler.NotificationAlarmScheduler
 
 @RequiresApi(Build.VERSION_CODES.O)
 @Composable
@@ -48,6 +49,7 @@ fun NavGraph(
     startDestination: NavigationRoute,
     latitude:Double,
     longitude:Double
+    ,notificationAlarmScheduler:NotificationAlarmScheduler
 
 
 ){
@@ -227,6 +229,7 @@ fun NavGraph(
                 val context = LocalContext.current
                 val sharedPreferences = context.getSharedPreferences("AppSettings", Context.MODE_PRIVATE)
                 PickTimeAndDateView(
+                    notificationAlarmScheduler,
                         ViewModelProvider(
                             LocalContext.current as ViewModelStoreOwner,
                             NotificationFactory(

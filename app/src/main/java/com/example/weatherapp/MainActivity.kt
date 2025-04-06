@@ -41,16 +41,17 @@ import com.google.android.libraries.places.api.Places
 import java.util.Calendar
 
 class MainActivity : ComponentActivity() {
-
+    private val notificationAlarmScheduler by lazy {
+        NotificationAlarmScheduler(this)
+    }
     private lateinit var fusedLocationProviderClient: FusedLocationProviderClient
     private lateinit var locationState: MutableState<Location>
     @RequiresApi(Build.VERSION_CODES.O)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        /*val  notificationAlarmScheduler = NotificationAlarmScheduler(this)
 
-        val reminderItem = ReminderItem(
+        /*val reminderItem = ReminderItem(
             id = 200,
             startTime =  Calendar.getInstance().apply {
                 set(Calendar.HOUR_OF_DAY, 5)
@@ -79,7 +80,7 @@ class MainActivity : ComponentActivity() {
                 locationState = remember{ mutableStateOf(Location(LocationManager.GPS_PROVIDER)) }
                 val latitude:Double = locationState.value.latitude
                 val longitude:Double = locationState.value.longitude
-                NavGraph(navController = navController, NavigationRoute.Home(latitude,longitude),latitude,longitude)
+                NavGraph(navController = navController, NavigationRoute.Home(latitude,longitude),latitude,longitude ,notificationAlarmScheduler)
             }
         }
     }

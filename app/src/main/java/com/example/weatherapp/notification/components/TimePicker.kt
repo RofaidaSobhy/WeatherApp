@@ -70,11 +70,6 @@ fun TimePicker(timeName:String,viewModel: NotificationViewModel) {
         dialogState = timeDialogState,
         buttons = {
             positiveButton(text = "Ok") {
-                Toast.makeText(
-                    context,
-                    "Clicked ok",
-                    Toast.LENGTH_LONG
-                ).show()
 
                 if(timeName == "Start"){
                     viewModel.setStartTime(calendar.timeInMillis)

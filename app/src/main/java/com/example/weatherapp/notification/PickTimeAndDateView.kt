@@ -1,7 +1,6 @@
 package com.example.weatherapp.notification
 
-import android.app.AlarmManager
-import android.content.Intent
+
 import android.os.Build
 import android.util.Log
 import androidx.annotation.RequiresApi
@@ -29,12 +28,13 @@ import com.example.weatherapp.notification.components.DatePicker
 import com.example.weatherapp.notification.components.TimePicker
 import com.example.weatherapp.notification.helpers.scheduler.NotificationAlarmScheduler
 
+
 @RequiresApi(Build.VERSION_CODES.O)
 
+
 @Composable
-fun PickTimeAndDateView(viewModel: NotificationViewModel , back: (NavigationRoute, Boolean)->Boolean) {
+fun PickTimeAndDateView(notificationAlarmScheduler: NotificationAlarmScheduler,viewModel: NotificationViewModel , back: (NavigationRoute, Boolean)->Boolean) {
    val context = LocalContext.current
-    val  notificationAlarmScheduler = NotificationAlarmScheduler(context)
 
     Column(
         modifier = Modifier
@@ -93,4 +93,8 @@ fun PickTimeAndDateView(viewModel: NotificationViewModel , back: (NavigationRout
             }
         }
     }
+
+
+
 }
+
