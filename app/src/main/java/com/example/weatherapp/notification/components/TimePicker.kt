@@ -18,17 +18,20 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.sp
+import com.example.weatherapp.notification.NotificationViewModel
 import com.vanpra.composematerialdialogs.MaterialDialog
 import com.vanpra.composematerialdialogs.datetime.time.timepicker
 import com.vanpra.composematerialdialogs.rememberMaterialDialogState
 import java.time.LocalTime
 import java.time.format.DateTimeFormatter
+import java.util.Calendar
 
 @RequiresApi(Build.VERSION_CODES.O)
 @Composable
-fun TimePicker(timeName:String) {
+fun TimePicker(timeName:String,viewModel: NotificationViewModel) {
     val context = LocalContext.current
 
+    val calendar = remember { Calendar.getInstance() }
     var pickedTime by remember {
         mutableStateOf(LocalTime.now())
     }
@@ -40,6 +43,11 @@ fun TimePicker(timeName:String) {
                 .format(pickedTime)
         }
     }
+
+    calendar.set(Calendar.HOUR_OF_DAY, pickedTime.hour)
+    calendar.set(Calendar.MINUTE, pickedTime.minute)
+    calendar.set(Calendar.SECOND, pickedTime.second)
+
 
     val timeDialogState = rememberMaterialDialogState()
 
@@ -67,6 +75,10 @@ fun TimePicker(timeName:String) {
                     "Clicked ok",
                     Toast.LENGTH_LONG
                 ).show()
+
+                if(timeName == "Start"){
+                    viewModel.setStartTime(calendar.timeInMillis)
+                }
             }
             negativeButton(text = "Cancel")
         }

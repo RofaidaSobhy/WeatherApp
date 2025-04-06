@@ -39,7 +39,7 @@ import com.example.weatherapp.favorite.FavoriteViewModel
 import com.example.weatherapp.notification.NotificationFactory
 import com.example.weatherapp.notification.NotificationView
 import com.example.weatherapp.notification.NotificationViewModel
-import com.example.weatherapp.notification.picktimeanddate.PickTimeAndDateView
+import com.example.weatherapp.notification.PickTimeAndDateView
 
 @RequiresApi(Build.VERSION_CODES.O)
 @Composable
