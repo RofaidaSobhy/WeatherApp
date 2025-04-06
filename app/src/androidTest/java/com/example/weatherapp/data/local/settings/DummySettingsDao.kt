@@ -43,6 +43,14 @@ class DummySettingsDao() :SettingsDao {
         TODO("Not yet implemented")
     }
 
+    override fun readLanguage(): Flow<String> {
+        TODO("Not yet implemented")
+    }
+
+    override suspend fun writeLanguage(language: String) {
+        TODO("Not yet implemented")
+    }
+
     override fun readOldTempUnit(): Flow<String> {
         TODO("Not yet implemented")
     }

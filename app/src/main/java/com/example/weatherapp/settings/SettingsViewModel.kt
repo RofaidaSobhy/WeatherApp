@@ -20,6 +20,9 @@ class SettingsViewModel (private val repo : WeatherRepository) : ViewModel() {
     private val mutableLocationMethod=  MutableStateFlow("")
     val locationMethod = mutableLocationMethod.asStateFlow()
 
+    private val mutableLanguage=  MutableStateFlow("")
+    val language = mutableLanguage.asStateFlow()
+
 
     fun readTempUnit(){
         viewModelScope.launch (Dispatchers.IO) {
@@ -74,7 +77,21 @@ class SettingsViewModel (private val repo : WeatherRepository) : ViewModel() {
 
 
 
+    fun readLanguage(){
+        viewModelScope.launch (Dispatchers.IO) {
+            val result = repo.readLanguage()
+            result.collect{
+                mutableLanguage.value=it
+            }
+        }
+    }
 
+    fun writeLanguage(language:String){
+        viewModelScope.launch (Dispatchers.IO) {
+            mutableLanguage.value = language
+            repo.writeLanguage(language)
+        }
+    }
 
 
 

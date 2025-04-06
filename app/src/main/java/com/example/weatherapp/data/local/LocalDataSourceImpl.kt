@@ -45,6 +45,14 @@ class LocalDataSourceImpl(private val settingsDao: SettingsDao, private val favL
         settingsDao.writeLongitude(longitude)
     }
 
+    override suspend fun readLanguage(): Flow<String> {
+        return settingsDao.readLanguage()
+    }
+
+    override suspend fun writeLanguage(language: String) {
+        settingsDao.writeLanguage(language)
+    }
+
     override suspend fun readOldTempUnit(): Flow<String> {
         return settingsDao.readOldTempUnit()
     }

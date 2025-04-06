@@ -50,6 +50,14 @@ class FakeLocalDataSource(
         TODO("Not yet implemented")
     }
 
+    override suspend fun readLanguage(): Flow<String> {
+        TODO("Not yet implemented")
+    }
+
+    override suspend fun writeLanguage(language: String) {
+        TODO("Not yet implemented")
+    }
+
     override suspend fun readOldTempUnit(): Flow<String> {
         TODO("Not yet implemented")
     }

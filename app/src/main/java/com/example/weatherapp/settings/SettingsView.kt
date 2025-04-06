@@ -31,7 +31,7 @@ fun SettingsView(viewModel: SettingsViewModel, action : ()-> Unit) {
                 .fillMaxSize()
 
         ) {
-            LanguageCard()
+            LanguageCard(viewModel)
             Spacer(modifier = Modifier.height(10.dp))
             TempUnitCard(viewModel)
             Spacer(modifier = Modifier.height(10.dp))

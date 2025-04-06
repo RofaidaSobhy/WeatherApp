@@ -18,6 +18,8 @@ interface WeatherRepository {
     suspend fun writeLatitude(latitude: String)
     suspend fun readLongitude(): Flow<String>
     suspend fun writeLongitude(longitude: String)
+    suspend fun readLanguage(): Flow<String>
+    suspend fun writeLanguage(language: String)
     suspend fun readOldTempUnit() : Flow<String>
     suspend fun writeOldTempUnit(oldTempUnit:String)
 

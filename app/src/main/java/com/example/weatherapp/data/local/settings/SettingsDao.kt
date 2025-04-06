@@ -13,6 +13,8 @@ interface SettingsDao {
     suspend fun writeLatitude(latitude: String)
     fun readLongitude(): Flow<String>
     suspend fun writeLongitude(longitude: String)
+    fun readLanguage(): Flow<String>
+    suspend fun writeLanguage(language: String)
     fun readOldTempUnit(): Flow<String>
     suspend fun writeOldTempUnit(tempUnit: String)
 }

@@ -40,6 +40,9 @@ class HomeViewModel (private val repo : WeatherRepository) : ViewModel() {
     private val mutableLocationMethod=  MutableStateFlow("")
     val locationMethod = mutableLocationMethod.asStateFlow()
 
+    private val mutableLanguage=  MutableStateFlow("")
+    val language= mutableLanguage.asStateFlow()
+
     private val mutableOldTempUnit=  MutableStateFlow("")
     val oldTempUnit= mutableOldTempUnit.asStateFlow()
 
@@ -141,6 +144,15 @@ class HomeViewModel (private val repo : WeatherRepository) : ViewModel() {
             val result = repo.readLocationMethod()
             result.collect{
                 mutableLocationMethod.value=it
+            }
+        }
+    }
+
+    fun readLanguage(){
+        viewModelScope.launch (Dispatchers.IO) {
+            val result = repo.readLanguage()
+            result.collect{
+                mutableLanguage.value=it
             }
         }
     }
