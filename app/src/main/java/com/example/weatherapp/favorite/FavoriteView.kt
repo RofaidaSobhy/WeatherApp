@@ -29,8 +29,8 @@ import androidx.compose.ui.unit.sp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.example.weatherapp.data.models.FavLocation
 import com.example.weatherapp.data.models.Response.Response
-import com.example.weatherapp.favorite.components.FAB
 import com.example.weatherapp.favorite.components.FavLocationRow
+import com.example.weatherapp.favorite.components.FavoriteFAB
 import com.example.weatherapp.home.LoadingIndicator
 
 import com.example.weatherapp.utils.Constants.SCREEN_PADDING
@@ -113,7 +113,7 @@ fun FavoriteView(viewModel: FavoriteViewModel, action: () -> Unit, action2: (Dou
                             Spacer(modifier = Modifier.height(16.dp))
                         }
                     }
-                    FAB(action)
+                    FavoriteFAB(action)
                 }
             }
         }

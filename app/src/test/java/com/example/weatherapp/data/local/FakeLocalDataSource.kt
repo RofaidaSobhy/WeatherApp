@@ -3,11 +3,13 @@ package com.example.weatherapp.data.local
 import com.example.weatherapp.data.models.FavLocation
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.emptyFlow
+import kotlinx.coroutines.flow.asStateFlow
 
-class StubLocalDataSource(
-    private var favLocations: MutableStateFlow<List<FavLocation>> ?= MutableStateFlow(emptyList())
+class FakeLocalDataSource(
+    private val favLocations: MutableList<FavLocation> = mutableListOf()
 ):LocalDataSource {
+    private val favLocationsFlow = MutableStateFlow<List<FavLocation>>(favLocations)
+
     override suspend fun readTempUnit(): Flow<String> {
         TODO("Not yet implemented")
     }
@@ -57,17 +59,28 @@ class StubLocalDataSource(
     }
 
     override suspend fun getFavLocations(): Flow<List<FavLocation>> {
-        return favLocations ?: MutableStateFlow(emptyList())
+        return favLocationsFlow.asStateFlow()
+
+
     }
 
     override suspend fun insertFavLocation(favLocation: FavLocation): Long {
-        favLocations?.value = favLocations?.value?.plus(favLocation) ?: listOf(favLocation)
-        return 1L
+        return if (favLocations.add(favLocation)) {
+            favLocationsFlow.value = favLocations
+            1L
+        } else {
+            -1L
+        }
     }
 
     override suspend fun deleteFavLocation(favLocation: FavLocation?): Int {
-        favLocations?.value = favLocations?.value?.filter { it != favLocation } ?: emptyList()
-        return 1
+        return if (favLocations.remove(favLocation)) {
+            favLocationsFlow.value = favLocations
+            1
+        } else {
+            0
+        }
+
     }
 
 }

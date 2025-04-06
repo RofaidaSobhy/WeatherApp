@@ -21,6 +21,10 @@ sealed class NavigationRoute {
     object Favorite: NavigationRoute()
     @Serializable
     object Settings: NavigationRoute()
+    @Serializable
+    object Notification: NavigationRoute()
+    @Serializable
+    object PickTimeAndDate: NavigationRoute()
 
 
 }

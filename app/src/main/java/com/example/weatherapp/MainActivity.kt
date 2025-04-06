@@ -1,12 +1,15 @@
 package com.example.weatherapp
 
 import android.annotation.SuppressLint
+import android.app.AlarmManager
+import android.content.Intent
 import android.content.pm.PackageManager
 import android.location.Location
 import android.location.LocationManager
 import android.os.Build
 import android.os.Bundle
 import android.os.Looper
+import android.provider.Settings
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.annotation.RequiresApi
@@ -19,8 +22,10 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.core.app.ActivityCompat
 import androidx.navigation.compose.rememberNavController
+import com.example.weatherapp.data.models.ReminderItem
 import com.example.weatherapp.navigation.NavGraph
 import com.example.weatherapp.navigation.NavigationRoute
+import com.example.weatherapp.notification.helpers.scheduler.NotificationAlarmScheduler
 import com.example.weatherapp.utils.Constants.REQUEST_LOCATION_CODE
 import com.example.weatherapp.utils.LocationUtils.checkedPermissions
 import com.example.weatherapp.utils.LocationUtils.enableLocationServices
@@ -33,14 +38,30 @@ import com.google.android.gms.location.LocationResult
 import com.google.android.gms.location.LocationServices
 import com.google.android.gms.location.Priority
 import com.google.android.libraries.places.api.Places
+import java.util.Calendar
 
 class MainActivity : ComponentActivity() {
+
     private lateinit var fusedLocationProviderClient: FusedLocationProviderClient
     private lateinit var locationState: MutableState<Location>
     @RequiresApi(Build.VERSION_CODES.O)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
+        /*val  notificationAlarmScheduler = NotificationAlarmScheduler(this)
+
+        val reminderItem = ReminderItem(
+            id = 200,
+            startTime =  Calendar.getInstance().apply {
+                set(Calendar.HOUR_OF_DAY, 5)
+                set(Calendar.MINUTE, 12)
+            }.timeInMillis,
+            latitude = 30.06263,
+            longitude = 31.24967
+        )
+
+
+        notificationAlarmScheduler.schedule(reminderItem)*/
         // Retrieve the API key from the manifest file
         val apiKey = ManifestUtils.getApiKeyFromManifest(this)
         // Initialize the Places API with the retrieved API key

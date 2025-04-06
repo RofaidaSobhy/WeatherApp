@@ -36,6 +36,10 @@ import com.example.weatherapp.data.repo.WeatherRepositoryImpl
 import com.example.weatherapp.favorite.FavoriteFactory
 import com.example.weatherapp.favorite.FavoriteView
 import com.example.weatherapp.favorite.FavoriteViewModel
+import com.example.weatherapp.notification.NotificationFactory
+import com.example.weatherapp.notification.NotificationView
+import com.example.weatherapp.notification.NotificationViewModel
+import com.example.weatherapp.notification.PickTimeAndDateView
 
 @RequiresApi(Build.VERSION_CODES.O)
 @Composable
@@ -52,7 +56,8 @@ fun NavGraph(
         listOf(
             BottomNavItem(NavigationRoute.Home(), R.drawable.home, "Home"),
             BottomNavItem(NavigationRoute.Favorite, R.drawable.favorite, "Favorite"),
-            BottomNavItem(NavigationRoute.Settings, R.drawable.settings, "Settings"),
+            BottomNavItem(NavigationRoute.Notification, R.drawable.notification, "Notification"),
+            BottomNavItem(NavigationRoute.Settings, R.drawable.settings, "Settings")
 
 
             )
@@ -188,6 +193,54 @@ fun NavGraph(
                         Log.i("TAG", "NavGraph: From fav:Latitude = $latitude, longitude = $longitude ")
                         navController.navigate(NavigationRoute.Home(latitude,longitude,true))
                     }
+                )
+            }
+
+            composable<NavigationRoute.Notification> {
+                val context = LocalContext.current
+                val sharedPreferences = context.getSharedPreferences("AppSettings", Context.MODE_PRIVATE)
+                NotificationView(
+                    ViewModelProvider(
+                        LocalContext.current as ViewModelStoreOwner,
+                        NotificationFactory(
+                            WeatherRepositoryImpl.getInstance(
+                                WeatherRemoteDataSourceImpl(RetrofitHelper.apiService)
+                                ,LocalDataSourceImpl(
+                                    SettingsDaoImpl(sharedPreferences)
+                                    , FavLocationDatabase.getInstance(context).getFavLocationDao()
+                                )
+
+                            )
+                        )
+                    ).get(NotificationViewModel::class.java)
+                    ,{navController.navigate(NavigationRoute.PickTimeAndDate)}
+                    /*, {
+                            latitude:Double, longitude:Double ->
+                        Log.i("TAG", "NavGraph: From fav:Latitude = $latitude, longitude = $longitude ")
+                        navController.navigate(NavigationRoute.Home(latitude,longitude,true))
+                    }*/
+                )
+            }
+
+
+            composable<NavigationRoute.PickTimeAndDate> {
+                val context = LocalContext.current
+                val sharedPreferences = context.getSharedPreferences("AppSettings", Context.MODE_PRIVATE)
+                PickTimeAndDateView(
+                        ViewModelProvider(
+                            LocalContext.current as ViewModelStoreOwner,
+                            NotificationFactory(
+                                WeatherRepositoryImpl.getInstance(
+                                    WeatherRemoteDataSourceImpl(RetrofitHelper.apiService)
+                                    ,LocalDataSourceImpl(
+                                        SettingsDaoImpl(sharedPreferences)
+                                        , FavLocationDatabase.getInstance(context).getFavLocationDao()
+                                    )
+
+                                )
+                            )
+                        ).get(NotificationViewModel::class.java)
+                    ,{ route :NavigationRoute , inclusive:Boolean ->navController.popBackStack(route,inclusive)}
                 )
             }
 
