@@ -12,6 +12,8 @@ object Constants {
     const val LOCATION_METHOD = "LOCATION_METHOD"
     const val LONGITUDE = "LONGITUDE"
     const val LATITUDE = "LATITUDE"
+    const val LANGUAGE = "LANGUAGE"
+
 
     const val OLD_TEMP_UNIT = "OLD_TEMP_UNIT"
 

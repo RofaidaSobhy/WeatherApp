@@ -39,6 +39,7 @@ import com.example.weatherapp.data.models.Response.Response
 import com.example.weatherapp.data.models.CurrentWeatherResponse
 import com.example.weatherapp.data.models.ListOfWeather
 import com.example.weatherapp.data.models.WeatherForecastResponse
+import com.example.weatherapp.settings.Constants.Language
 import com.example.weatherapp.utils.Constants.SCREEN_PADDING
 import com.example.weatherapp.utils.TemperatureUtils
 import kotlinx.coroutines.flow.filter
@@ -69,14 +70,23 @@ fun HomeView(viewModel: HomeViewModel, latitude:Double, longitude:Double , isFro
     viewModel.readLocationMethod()
     val savedLocationMethod = viewModel.locationMethod.value
 
+    viewModel.readLanguage()
+    val savedLanguage = viewModel.locationMethod.value
+    var language:String = "en"
+    if (savedLanguage ==Language.arabic){
+        language ="ar"
+    }else if(savedLanguage ==Language.english){
+        language = "en"
+    }
+
     if(isFromFav){
-        viewModel.getCurrentWeather(latitude, longitude)
-        viewModel.getWeatherForecast(latitude, longitude)
+        viewModel.getCurrentWeather(latitude, longitude, language = language)
+        viewModel.getWeatherForecast(latitude, longitude,language = language)
     }else{
         when(savedLocationMethod){
             Location.gps -> {
-                viewModel.getCurrentWeather(latitude, longitude)
-                viewModel.getWeatherForecast(latitude, longitude)
+                viewModel.getCurrentWeather(latitude, longitude,language = language)
+                viewModel.getWeatherForecast(latitude, longitude,language = language)
             }
             Location.map -> {
 
@@ -86,8 +96,8 @@ fun HomeView(viewModel: HomeViewModel, latitude:Double, longitude:Double , isFro
                 val savedLatitude = viewModel.latitude.value
                 val savedLongitude = viewModel.longitude.value
 
-                viewModel.getCurrentWeather(savedLatitude.toDouble(), savedLongitude.toDouble())
-                viewModel.getWeatherForecast(savedLatitude.toDouble(), savedLongitude.toDouble())
+                viewModel.getCurrentWeather(savedLatitude.toDouble(), savedLongitude.toDouble(),language = language)
+                viewModel.getWeatherForecast(savedLatitude.toDouble(), savedLongitude.toDouble(),language = language)
 
 
             }

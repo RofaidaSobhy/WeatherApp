@@ -1,5 +1,6 @@
 package com.example.weatherapp.settings.components
 
+import android.annotation.SuppressLint
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -30,11 +31,19 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.weatherapp.R
 import com.example.weatherapp.settings.Constants.Language
+import com.example.weatherapp.settings.Constants.Location
+import com.example.weatherapp.settings.SettingsViewModel
 
-@Preview(showSystemUi = false)
+//@Preview(showSystemUi = false)
+@SuppressLint("StateFlowValueCalledInComposition")
 @Composable
-fun LanguageCard() {
+fun LanguageCard(viewModel: SettingsViewModel) {
+
+    viewModel.readLanguage()
+    val savedLanguage= viewModel.language.value
+
     val selectedLanguage = remember { mutableStateOf("") }
+    selectedLanguage.value = savedLanguage
     Card(
         shape = MaterialTheme.shapes.small,
         modifier = Modifier
@@ -77,7 +86,11 @@ fun LanguageCard() {
 
                 RadioButton(
                     selected = selectedLanguage.value == Language.arabic,
-                    onClick = {selectedLanguage.value = Language.arabic},
+                    onClick = {
+                        selectedLanguage.value = Language.arabic
+                        viewModel.writeLanguage(Language.arabic)
+
+                    },
                     colors = RadioButtonDefaults.colors(Color(0xFF379DF1))
                 )
                 //Spacer(modifier = Modifier.width(2.dp))
@@ -90,7 +103,11 @@ fun LanguageCard() {
 
                 RadioButton(
                     selected = selectedLanguage.value == Language.english,
-                    onClick = {selectedLanguage.value = Language.english},
+                    onClick = {
+                        selectedLanguage.value = Language.english
+                        viewModel.writeLanguage(Language.english)
+
+                              },
                     colors = RadioButtonDefaults.colors(Color(0xFF379DF1))
                 )
                 //Spacer(modifier = Modifier.width(2.dp))

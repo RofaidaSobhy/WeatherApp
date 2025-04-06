@@ -63,6 +63,14 @@ class WeatherRepositoryImpl (
         localDataSource.writeLongitude(longitude)
     }
 
+    override suspend fun readLanguage(): Flow<String> {
+        return localDataSource.readLanguage()
+    }
+
+    override suspend fun writeLanguage(language: String) {
+        localDataSource.writeLanguage(language)
+    }
+
 
     override suspend fun readOldTempUnit(): Flow<String> {
         return localDataSource.readOldTempUnit()

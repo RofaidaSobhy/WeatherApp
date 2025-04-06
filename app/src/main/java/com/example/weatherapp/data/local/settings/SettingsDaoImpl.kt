@@ -1,9 +1,11 @@
 package com.example.weatherapp.data.local.settings
 
 import android.content.SharedPreferences
+import com.example.weatherapp.settings.Constants.Language
 import com.example.weatherapp.settings.Constants.Location
 import com.example.weatherapp.settings.Constants.TempUnit
 import com.example.weatherapp.settings.Constants.WindSpeedUnit
+import com.example.weatherapp.utils.Constants.LANGUAGE
 import com.example.weatherapp.utils.Constants.LATITUDE
 import com.example.weatherapp.utils.Constants.LOCATION_METHOD
 import com.example.weatherapp.utils.Constants.LONGITUDE
@@ -58,6 +60,15 @@ class SettingsDaoImpl(private val sharedPreferences: SharedPreferences) : Settin
 
     override suspend fun writeLongitude(longitude: String) {
         sharedPreferences.edit().putString(LONGITUDE, longitude).apply()
+    }
+
+    override fun readLanguage(): Flow<String> =flow {
+        val language = sharedPreferences.getString(LANGUAGE, Language.arabic) ?:  Language.arabic
+        emit(language)
+    }
+
+    override suspend fun writeLanguage(language: String) {
+        sharedPreferences.edit().putString(LANGUAGE, language).apply()
     }
 
     override fun readOldTempUnit(): Flow<String> = flow {
