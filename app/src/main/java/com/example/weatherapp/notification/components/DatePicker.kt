@@ -57,11 +57,7 @@ fun DatePicker() {
         dialogState = dateDialogState,
         buttons = {
             positiveButton(text = "Ok") {
-                Toast.makeText(
-                    context,
-                    "Clicked ok",
-                    Toast.LENGTH_LONG
-                ).show()
+
             }
             negativeButton(text = "Cancel")
         }
